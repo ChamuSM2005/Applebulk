@@ -400,7 +400,7 @@
         const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZS1kZW1vIiwicm9sZSI6ImFub24iLCJpYXQiOjE2NDU4MzQ5NDEsImV4cCI6MTgwMzU3MjU0MX0.y7N6qXhZJv5K_lB0R8w5s7F_3X_l7G4sJ5M2tN1Q9_w'; 
 
         // Supabase client එක ගෝලීයව define කර ඇත
-        const supabase = Supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+        const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
         // Trending/Popular දත්ත සඳහා Edge Function URL එක.
         // මෙය ඔබේ Supabase project එකේ deploy කර ඇති Edge Function එකේ URL එක විය යුතුය.
