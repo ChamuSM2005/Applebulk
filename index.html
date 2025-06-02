@@ -7,6 +7,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2" async></script>
     <style>
         /* Custom CSS for the animated background */
         @import url('https://fonts.googleapis.com/css?family=Exo:400,700');
@@ -294,7 +295,78 @@
             </section>
 
             <section class="mb-12">
-                <h2 class="text-4xl font-bold text-center mb-8 text-transparent bg-clip-text bg-gradient-to-r from-green-300 to-blue-400">Featured Wallpapers</h2>
+                <h2 class="text-4xl font-bold text-center mb-8 text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-400">Wallpaper Categories</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <div class="bg-black bg-opacity-50 backdrop-blur-sm rounded-xl p-6 shadow-2xl border border-gray-700 transform hover:scale-105 transition duration-300">
+                        <h2 class="text-3xl font-bold mb-6 text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-400">Abstract</h2>
+                        <div class="grid grid-cols-2 gap-4">
+                            <img src="https://placehold.co/300x200/1a2a3a/FFFFFF?text=Abstract+1" alt="Abstract Wallpaper 1" class="w-full h-auto rounded-lg shadow-md hover:shadow-xl transition duration-300 cursor-pointer object-cover">
+                            <img src="https://placehold.co/300x200/2a3a4a/FFFFFF?text=Abstract+2" alt="Abstract Wallpaper 2" class="w-full h-auto rounded-lg shadow-md hover:shadow-xl transition duration-300 cursor-pointer object-cover">
+                            <img src="https://placehold.co/300x200/3a4a5a/FFFFFF?text=Abstract+3" alt="Abstract Wallpaper 3" class="w-full h-auto rounded-lg shadow-md hover:shadow-xl transition duration-300 cursor-pointer object-cover">
+                            <img src="https://placehold.co/300x200/4a4a6a/FFFFFF?text=Abstract+4" alt="Abstract Wallpaper 4" class="w-full h-auto rounded-lg shadow-md hover:shadow-xl transition duration-300 cursor-pointer object-cover">
+                        </div>
+                        <button class="mt-6 w-full py-3 bg-gradient-to-r from-gray-700 to-gray-800 text-white font-semibold rounded-full shadow-lg hover:shadow-xl transform hover:scale-105 transition duration-300 category-button" data-category="abstract">View More</button>
+                    </div>
+
+                    <div class="bg-black bg-opacity-50 backdrop-blur-sm rounded-xl p-6 shadow-2xl border border-gray-700 transform hover:scale-105 transition duration-300">
+                        <h2 class="text-3xl font-bold mb-6 text-transparent bg-clip-text bg-gradient-to-r from-green-400 to-teal-400">Nature</h2>
+                        <div class="grid grid-cols-2 gap-4">
+                            <img src="https://placehold.co/300x200/0f2a1f/FFFFFF?text=Nature+1" alt="Nature Wallpaper 1" class="w-full h-auto rounded-lg shadow-md hover:shadow-xl transition duration-300 cursor-pointer object-cover">
+                            <img src="https://placehold.co/300x200/1f3a2f/FFFFFF?text=Nature+2" alt="Nature Wallpaper 2" class="w-full h-auto rounded-lg shadow-md hover:shadow-xl transition duration-300 cursor-pointer object-cover">
+                            <img src="https://placehold.co/300x200/2f4a3f/FFFFFF?text=Nature+3" alt="Nature Wallpaper 3" class="w-full h-auto rounded-lg shadow-md hover:shadow-xl transition duration-300 cursor-pointer object-cover">
+                            <img src="https://placehold.co/300x200/3f5a4f/FFFFFF?text=Nature+4" alt="Nature Wallpaper 4" class="w-full h-auto rounded-lg shadow-md hover:shadow-xl transition duration-300 cursor-pointer object-cover">
+                        </div>
+                        <button class="mt-6 w-full py-3 bg-gradient-to-r from-gray-700 to-gray-800 text-white font-semibold rounded-full shadow-lg hover:shadow-xl transform hover:scale-105 transition duration-300 category-button" data-category="nature">View More</button>
+                    </div>
+
+                    <div class="bg-black bg-opacity-50 backdrop-blur-sm rounded-xl p-6 shadow-2xl border border-gray-700 transform hover:scale-105 transition duration-300">
+                        <h2 class="text-3xl font-bold mb-6 text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-purple-400">Sci-Fi</h2>
+                        <div class="grid grid-cols-2 gap-4">
+                            <img src="https://placehold.co/300x200/1a1a3a/FFFFFF?text=Sci-Fi+1" alt="Sci-Fi Wallpaper 1" class="w-full h-auto rounded-lg shadow-md hover:shadow-xl transition duration-300 cursor-pointer object-cover">
+                            <img src="https://placehold.co/300x200/2a2a4a/FFFFFF?text=Sci-Fi+2" alt="Sci-Fi Wallpaper 2" class="w-full h-auto rounded-lg shadow-md hover:shadow-xl transition duration-300 cursor-pointer object-cover">
+                            <img src="https://placehold.co/300x200/3a3a5a/FFFFFF?text=Sci-Fi+3" alt="Sci-Fi Wallpaper 3" class="w-full h-auto rounded-lg shadow-md hover:shadow-xl transition duration-300 cursor-pointer object-cover">
+                            <img src="https://placehold.co/300x200/4a4a6a/FFFFFF?text=Sci-Fi+4" alt="Sci-Fi Wallpaper 4" class="w-full h-auto rounded-lg shadow-md hover:shadow-xl transition duration-300 cursor-pointer object-cover">
+                        </div>
+                        <button class="mt-6 w-full py-3 bg-gradient-to-r from-gray-700 to-gray-800 text-white font-semibold rounded-full shadow-lg hover:shadow-xl transform hover:scale-105 transition duration-300 category-button" data-category="sci-fi">View More</button>
+                    </div>
+
+                    <div class="bg-black bg-opacity-50 backdrop-blur-sm rounded-xl p-6 shadow-2xl border border-gray-700 transform hover:scale-105 transition duration-300">
+                        <h2 class="text-3xl font-bold mb-6 text-transparent bg-clip-text bg-gradient-to-r from-gray-400 to-gray-600">Minimalist</h2>
+                        <div class="grid grid-cols-2 gap-4">
+                            <img src="https://placehold.co/300x200/5a5a5a/FFFFFF?text=Minimal+1" alt="Minimalist Wallpaper 1" class="w-full h-auto rounded-lg shadow-md hover:shadow-xl transition duration-300 cursor-pointer object-cover">
+                            <img src="https://placehold.co/300x200/6a6a6a/FFFFFF?text=Minimal+2" alt="Minimalist Wallpaper 2" class="w-full h-auto rounded-lg shadow-md hover:shadow-xl transition duration-300 cursor-pointer object-cover">
+                            <img src="https://placehold.co/300x200/7a7a7a/FFFFFF?text=Minimal+3" alt="Minimalist Wallpaper 3" class="w-full h-auto rounded-lg shadow-md hover:shadow-xl transition duration-300 cursor-pointer object-cover">
+                            <img src="https://placehold.co/300x200/8a8a8a/FFFFFF?text=Minimal+4" alt="Minimalist Wallpaper 4" class="w-full h-auto rounded-lg shadow-md hover:shadow-xl transition duration-300 cursor-pointer object-cover">
+                        </div>
+                        <button class="mt-6 w-full py-3 bg-gradient-to-r from-gray-700 to-gray-800 text-white font-semibold rounded-full shadow-lg hover:shadow-xl transform hover:scale-105 transition duration-300 category-button" data-category="minimalist">View More</button>
+                    </div>
+
+                    <div class="bg-black bg-opacity-50 backdrop-blur-sm rounded-xl p-6 shadow-2xl border border-gray-700 transform hover:scale-105 transition duration-300">
+                        <h2 class="text-3xl font-bold mb-6 text-transparent bg-clip-text bg-gradient-to-r from-red-500 to-purple-500">Gaming</h2>
+                        <div class="grid grid-cols-2 gap-4">
+                            <img src="https://placehold.co/300x200/3a0a0a/FFFFFF?text=Gaming+1" alt="Gaming Wallpaper 1" class="w-full h-auto rounded-lg shadow-md hover:shadow-xl transition duration-300 cursor-pointer object-cover">
+                            <img src="https://placehold.co/300x200/4a0a0a/FFFFFF?text=Gaming+2" alt="Gaming Wallpaper 2" class="w-full h-auto rounded-lg shadow-md hover:shadow-xl transition duration-300 cursor-pointer object-cover">
+                            <img src="https://placehold.co/300x200/5a0a0a/FFFFFF?text=Gaming+3" alt="Gaming Wallpaper 3" class="w-full h-auto rounded-lg shadow-md hover:shadow-xl transition duration-300 cursor-pointer object-cover">
+                            <img src="https://placehold.co/300x200/6a0a0a/FFFFFF?text=Gaming+4" alt="Gaming Wallpaper 4" class="w-full h-auto rounded-lg shadow-md hover:shadow-xl transition duration-300 cursor-pointer object-cover">
+                        </div>
+                        <button class="mt-6 w-full py-3 bg-gradient-to-r from-gray-700 to-gray-800 text-white font-semibold rounded-full shadow-lg hover:shadow-xl transform hover:scale-105 transition duration-300 category-button" data-category="gaming">View More</button>
+                    </div>
+
+                    <div class="bg-black bg-opacity-50 backdrop-blur-sm rounded-xl p-6 shadow-2xl border border-gray-700 transform hover:scale-105 transition duration-300">
+                        <h2 class="text-3xl font-bold mb-6 text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 to-orange-400">Cars</h2>
+                        <div class="grid grid-cols-2 gap-4">
+                            <img src="https://placehold.co/300x200/3a3a0a/FFFFFF?text=Cars+1" alt="Cars Wallpaper 1" class="w-full h-auto rounded-lg shadow-md hover:shadow-xl transition duration-300 cursor-pointer object-cover">
+                            <img src="https://placehold.co/300x200/4a4a0a/FFFFFF?text=Cars+2" alt="Cars Wallpaper 2" class="w-full h-auto rounded-lg shadow-md hover:shadow-xl transition duration-300 cursor-pointer object-cover">
+                            <img src="https://placehold.co/300x200/5a5a0a/FFFFFF?text=Cars+3" alt="Cars Wallpaper 3" class="w-full h-auto rounded-lg shadow-md hover:shadow-xl transition duration-300 cursor-pointer object-cover">
+                            <img src="https://placehold.co/300x200/6a6a0a/FFFFFF?text=Cars+4" alt="Cars Wallpaper 4" class="w-full h-auto rounded-lg shadow-md hover:shadow-xl transition duration-300 cursor-pointer object-cover">
+                        </div>
+                        <button class="mt-6 w-full py-3 bg-gradient-to-r from-gray-700 to-gray-800 text-white font-semibold rounded-full shadow-lg hover:shadow-xl transform hover:scale-105 transition duration-300 category-button" data-category="cars">View More</button>
+                    </div>
+                </div>
+            </section>
+
+            <section class="mb-12">
+                <h2 id="featuredWallpapersTitle" class="text-4xl font-bold text-center mb-8 text-transparent bg-clip-text bg-gradient-to-r from-green-300 to-blue-400">Featured Wallpapers</h2>
                 <div id="featuredWallpapersContainer" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-6">
                     </div>
 
@@ -302,74 +374,6 @@
                     <button id="loadMoreButton" class="px-8 py-3 bg-gradient-to-r from-blue-600 to-cyan-700 text-white font-semibold rounded-full shadow-lg hover:shadow-xl transform hover:scale-105 transition duration-300 ease-in-out">
                         Load More Wallpapers
                     </button>
-                </div>
-            </section>
-
-            <section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                <div class="bg-black bg-opacity-50 backdrop-blur-sm rounded-xl p-6 shadow-2xl border border-gray-700 transform hover:scale-105 transition duration-300">
-                    <h2 class="text-3xl font-bold mb-6 text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-400">Abstract</h2>
-                    <div class="grid grid-cols-2 gap-4">
-                        <img src="https://placehold.co/300x200/1a2a3a/FFFFFF?text=Abstract+1" alt="Abstract Wallpaper 1" class="w-full h-auto rounded-lg shadow-md hover:shadow-xl transition duration-300 cursor-pointer object-cover">
-                        <img src="https://placehold.co/300x200/2a3a4a/FFFFFF?text=Abstract+2" alt="Abstract Wallpaper 2" class="w-full h-auto rounded-lg shadow-md hover:shadow-xl transition duration-300 cursor-pointer object-cover">
-                        <img src="https://placehold.co/300x200/3a4a5a/FFFFFF?text=Abstract+3" alt="Abstract Wallpaper 3" class="w-full h-auto rounded-lg shadow-md hover:shadow-xl transition duration-300 cursor-pointer object-cover">
-                        <img src="https://placehold.co/300x200/4a5a6a/FFFFFF?text=Abstract+4" alt="Abstract Wallpaper 4" class="w-full h-auto rounded-lg shadow-md hover:shadow-xl transition duration-300 cursor-pointer object-cover">
-                    </div>
-                    <button class="mt-6 w-full py-3 bg-gradient-to-r from-gray-700 to-gray-800 text-white font-semibold rounded-full shadow-lg hover:shadow-xl transform hover:scale-105 transition duration-300">View More</button>
-                </div>
-
-                <div class="bg-black bg-opacity-50 backdrop-blur-sm rounded-xl p-6 shadow-2xl border border-gray-700 transform hover:scale-105 transition duration-300">
-                    <h2 class="text-3xl font-bold mb-6 text-transparent bg-clip-text bg-gradient-to-r from-green-400 to-teal-400">Nature</h2>
-                    <div class="grid grid-cols-2 gap-4">
-                        <img src="https://placehold.co/300x200/0f2a1f/FFFFFF?text=Nature+1" alt="Nature Wallpaper 1" class="w-full h-auto rounded-lg shadow-md hover:shadow-xl transition duration-300 cursor-pointer object-cover">
-                        <img src="https://placehold.co/300x200/1f3a2f/FFFFFF?text=Nature+2" alt="Nature Wallpaper 2" class="w-full h-auto rounded-lg shadow-md hover:shadow-xl transition duration-300 cursor-pointer object-cover">
-                        <img src="https://placehold.co/300x200/2f4a3f/FFFFFF?text=Nature+3" alt="Nature Wallpaper 3" class="w-full h-auto rounded-lg shadow-md hover:shadow-xl transition duration-300 cursor-pointer object-cover">
-                        <img src="https://placehold.co/300x200/3f5a4f/FFFFFF?text=Nature+4" alt="Nature Wallpaper 4" class="w-full h-auto rounded-lg shadow-md hover:shadow-xl transition duration-300 cursor-pointer object-cover">
-                    </div>
-                    <button class="mt-6 w-full py-3 bg-gradient-to-r from-gray-700 to-gray-800 text-white font-semibold rounded-full shadow-lg hover:shadow-xl transform hover:scale-105 transition duration-300">View More</button>
-                </div>
-
-                <div class="bg-black bg-opacity-50 backdrop-blur-sm rounded-xl p-6 shadow-2xl border border-gray-700 transform hover:scale-105 transition duration-300">
-                    <h2 class="text-3xl font-bold mb-6 text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-purple-400">Sci-Fi</h2>
-                    <div class="grid grid-cols-2 gap-4">
-                        <img src="https://placehold.co/300x200/1a1a3a/FFFFFF?text=Sci-Fi+1" alt="Sci-Fi Wallpaper 1" class="w-full h-auto rounded-lg shadow-md hover:shadow-xl transition duration-300 cursor-pointer object-cover">
-                        <img src="https://placehold.co/300x200/2a2a4a/FFFFFF?text=Sci-Fi+2" alt="Sci-Fi Wallpaper 2" class="w-full h-auto rounded-lg shadow-md hover:shadow-xl transition duration-300 cursor-pointer object-cover">
-                        <img src="https://placehold.co/300x200/3a3a5a/FFFFFF?text=Sci-Fi+3" alt="Sci-Fi Wallpaper 3" class="w-full h-auto rounded-lg shadow-md hover:shadow-xl transition duration-300 cursor-pointer object-cover">
-                        <img src="https://placehold.co/300x200/4a4a6a/FFFFFF?text=Sci-Fi+4" alt="Sci-Fi Wallpaper 4" class="w-full h-auto rounded-lg shadow-md hover:shadow-xl transition duration-300 cursor-pointer object-cover">
-                    </div>
-                    <button class="mt-6 w-full py-3 bg-gradient-to-r from-gray-700 to-gray-800 text-white font-semibold rounded-full shadow-lg hover:shadow-xl transform hover:scale-105 transition duration-300">View More</button>
-                </div>
-
-                <div class="bg-black bg-opacity-50 backdrop-blur-sm rounded-xl p-6 shadow-2xl border border-gray-700 transform hover:scale-105 transition duration-300">
-                    <h2 class="text-3xl font-bold mb-6 text-transparent bg-clip-text bg-gradient-to-r from-gray-400 to-gray-600">Minimalist</h2>
-                    <div class="grid grid-cols-2 gap-4">
-                        <img src="https://placehold.co/300x200/5a5a5a/FFFFFF?text=Minimal+1" alt="Minimalist Wallpaper 1" class="w-full h-auto rounded-lg shadow-md hover:shadow-xl transition duration-300 cursor-pointer object-cover">
-                        <img src="https://placehold.co/300x200/6a6a6a/FFFFFF?text=Minimal+2" alt="Minimalist Wallpaper 2" class="w-full h-auto rounded-lg shadow-md hover:shadow-xl transition duration-300 cursor-pointer object-cover">
-                        <img src="https://placehold.co/300x200/7a7a7a/FFFFFF?text=Minimal+3" alt="Minimalist Wallpaper 3" class="w-full h-auto rounded-lg shadow-md hover:shadow-xl transition duration-300 cursor-pointer object-cover">
-                        <img src="https://placehold.co/300x200/8a8a8a/FFFFFF?text=Minimal+4" alt="Minimalist Wallpaper 4" class="w-full h-auto rounded-lg shadow-md hover:shadow-xl transition duration-300 cursor-pointer object-cover">
-                    </div>
-                    <button class="mt-6 w-full py-3 bg-gradient-to-r from-gray-700 to-gray-800 text-white font-semibold rounded-full shadow-lg hover:shadow-xl transform hover:scale-105 transition duration-300">View More</button>
-                </div>
-
-                <div class="bg-black bg-opacity-50 backdrop-blur-sm rounded-xl p-6 shadow-2xl border border-gray-700 transform hover:scale-105 transition duration-300">
-                    <h2 class="text-3xl font-bold mb-6 text-transparent bg-clip-text bg-gradient-to-r from-red-500 to-purple-500">Gaming</h2>
-                    <div class="grid grid-cols-2 gap-4">
-                        <img src="https://placehold.co/300x200/3a0a0a/FFFFFF?text=Gaming+1" alt="Gaming Wallpaper 1" class="w-full h-auto rounded-lg shadow-md hover:shadow-xl transition duration-300 cursor-pointer object-cover">
-                        <img src="https://placehold.co/300x200/4a0a0a/FFFFFF?text=Gaming+2" alt="Gaming Wallpaper 2" class="w-full h-auto rounded-lg shadow-md hover:shadow-xl transition duration-300 cursor-pointer object-cover">
-                        <img src="https://placehold.co/300x200/5a0a0a/FFFFFF?text=Gaming+3" alt="Gaming Wallpaper 3" class="w-full h-auto rounded-lg shadow-md hover:shadow-xl transition duration-300 cursor-pointer object-cover">
-                        <img src="https://placehold.co/300x200/6a0a0a/FFFFFF?text=Gaming+4" class="w-full h-auto rounded-lg shadow-md hover:shadow-xl transition duration-300 cursor-pointer object-cover">
-                    </div>
-                    <button class="mt-6 w-full py-3 bg-gradient-to-r from-gray-700 to-gray-800 text-white font-semibold rounded-full shadow-lg hover:shadow-xl transform hover:scale-105 transition duration-300">View More</button>
-                </div>
-
-                <div class="bg-black bg-opacity-50 backdrop-blur-sm rounded-xl p-6 shadow-2xl border border-gray-700 transform hover:scale-105 transition duration-300">
-                    <h2 class="text-3xl font-bold mb-6 text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 to-orange-400">Cars</h2>
-                    <div class="grid grid-cols-2 gap-4">
-                        <img src="https://placehold.co/300x200/3a3a0a/FFFFFF?text=Cars+1" alt="Cars Wallpaper 1" class="w-full h-auto rounded-lg shadow-md hover:shadow-xl transition duration-300 cursor-pointer object-cover">
-                        <img src="https://placehold.co/300x200/4a4a0a/FFFFFF?text=Cars+2" alt="Cars Wallpaper 2" class="w-full h-auto rounded-lg shadow-md hover:shadow-xl transition duration-300 cursor-pointer object-cover">
-                        <img src="https://placehold.co/300x200/5a5a0a/FFFFFF?text=Cars+3" alt="Cars Wallpaper 3" class="w-full h-auto rounded-lg shadow-md hover:shadow-xl transition duration-300 cursor-pointer object-cover">
-                        <img src="https://placehold.co/300x200/6a6a0a/FFFFFF?text=Cars+4" alt="Cars Wallpaper 4" class="w-full h-auto rounded-lg shadow-md hover:shadow-xl transition duration-300 cursor-pointer object-cover">
-                    </div>
-                    <button class="mt-6 w-full py-3 bg-gradient-to-r from-gray-700 to-gray-800 text-white font-semibold rounded-full shadow-lg hover:shadow-xl transform hover:scale-105 transition duration-300">View More</button>
                 </div>
             </section>
         </main>
@@ -389,173 +393,327 @@
     </div>
 
     <script>
-        // Get references to the buttons and modal elements
-        const trendingButton = document.getElementById('trendingButton');
-        const popularButton = document.getElementById('popularButton');
-        const messageModal = document.getElementById('messageModal');
-        const closeModalButton = document.getElementById('closeModalButton');
-        const modalTitle = document.getElementById('modalTitle');
-        const modalMessage = document.getElementById('modalMessage');
-        const modalContent = document.getElementById('modalContent');
+        // Supabase Client Initialization
+        // ඔබේ Supabase Dashboard එකේ "API Docs" යටතේ ඇති Project URL එක.
+        const SUPABASE_URL = 'https://bddphtmddbfatuibppsp.supabase.co';
+        // ඔබේ Supabase Dashboard එකේ "API Docs" යටතේ ඇති "anon (public)" key එක.
+        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZS1kZW1vIiwicm9sZSI6ImFub24iLCJpYXQiOjE2NDU4MzQ5NDEsImV4cCI6MTgwMzU3MjU0MX0.y7N6qXhZJv5K_lB0R8w5s7F_3X_l7G4sJ5M2tN1Q9_w'; 
 
-        // Get reference for wallpaper container and load more button
-        const featuredWallpapersContainer = document.getElementById('featuredWallpapersContainer');
-        const loadMoreButton = document.getElementById('loadMoreButton');
+        // Supabase client එක ගෝලීයව define කර ඇත
+        const supabase = Supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-        // --- Wallpaper Data and Pagination Logic ---
-        const allWallpapersData = [];
-        // Generate 48 placeholder wallpapers with unique colors and labels
-        for (let i = 1; i <= 48; i++) {
-            const hue = (i * 360 / 48) % 360; // Distribute hues for varied colors
-            const saturation = 50 + (i % 5) * 5; // Vary saturation slightly
-            const lightness = 20 + (i % 3) * 5; // Vary lightness slightly
-            const textColor = 'FFFFFF'; // White text for dark backgrounds
-            const bgColor = `${(i * 7 % 256).toString(16).padStart(2, '0')}${(i * 13 % 256).toString(16).padStart(2, '0')}${(i * 19 % 256).toString(16).padStart(2, '0')}`; // Generate a hex color
+        // Trending/Popular දත්ත සඳහා Edge Function URL එක.
+        // මෙය ඔබේ Supabase project එකේ deploy කර ඇති Edge Function එකේ URL එක විය යුතුය.
+        const EDGE_FUNCTION_URL = 'https://bddphtmddbfatuibppsp.supabase.co/functions/v1/get-trending-wallpapers';
 
-            allWallpapersData.push({
-                id: `F${i}`,
-                src: `https://placehold.co/300x533/${bgColor}/${textColor}?text=F${i}`,
-                alt: `Featured Wallpaper ${i}`,
-                title: `Wallpaper ${i}`,
-                description: i % 2 === 0 ? "Dynamic shapes and colors." : "Explore the depths of space."
-            });
-        }
 
-        const wallpapersPerPage = 24;
-        let currentPageIndex = 0; // Index of the current page (0 for first page, 1 for second, etc.)
+        // window.onload event listener to ensure all resources and DOM elements are fully loaded
+        window.onload = function() {
+            // බොත්තම් සහ modal element වලට reference ලබා ගැනීම
+            const trendingButton = document.getElementById('trendingButton');
+            const popularButton = document.getElementById('popularButton');
+            const messageModal = document.getElementById('messageModal');
+            const closeModalButton = document.getElementById('closeModalButton');
+            const modalTitle = document.getElementById('modalTitle');
+            const modalMessage = document.getElementById('modalMessage');
+            const modalContent = document.getElementById('modalContent');
 
-        // Function to render wallpapers for the current page
-        function renderWallpapers() {
-            featuredWallpapersContainer.innerHTML = ''; // Clear existing wallpapers
+            // wallpaper container එකට සහ load more බොත්තමට reference ලබා ගැනීම
+            const featuredWallpapersContainer = document.getElementById('featuredWallpapersContainer');
+            const loadMoreButton = document.getElementById('loadMoreButton');
+            const featuredWallpapersTitle = document.getElementById('featuredWallpapersTitle');
 
-            const startIndex = currentPageIndex * wallpapersPerPage;
-            const endIndex = startIndex + wallpapersPerPage;
 
-            // Get the wallpapers for the current page, looping back if necessary
-            const wallpapersToDisplay = [];
-            for (let i = startIndex; i < endIndex; i++) {
-                wallpapersToDisplay.push(allWallpapersData[i % allWallpapersData.length]);
+            // --- Wallpaper දත්ත සහ Pagination Logic ---
+            const allWallpapersData = [];
+            // අද්විතීය වර්ණ සහ labels සහිත placeholder wallpapers 48ක් ජනනය කිරීම
+            for (let i = 1; i <= 48; i++) {
+                const hue = (i * 360 / 48) % 360; // විවිධ වර්ණ සඳහා hues බෙදා හැරීම
+                const saturation = 50 + (i % 5) * 5; // saturation සුළු වශයෙන් වෙනස් කිරීම
+                const lightness = 20 + (i % 3) * 5; // lightness සුළු වශයෙන් වෙනස් කිරීම
+                const textColor = 'FFFFFF'; // අඳුරු පසුබිම් සඳහා සුදු අකුරු
+                const bgColor = `${(i * 7 % 256).toString(16).padStart(2, '0')}${(i * 13 % 256).toString(16).padStart(2, '0')}${(i * 19 % 256).toString(16).padStart(2, '0')}`; // hex වර්ණයක් ජනනය කිරීම
+
+                // නිරූපණය සඳහා index මත පදනම්ව labels පැවරීම
+                let labels = [];
+                if (i % 6 === 1) labels = ['abstract', 'colorful'];
+                else if (i % 6 === 2) labels = ['nature', 'landscape'];
+                else if (i % 6 === 3) labels = ['sci-fi', 'futuristic'];
+                else if (i % 6 === 4) labels = ['minimalist', 'clean'];
+                else if (i % 6 === 5) labels = ['gaming', 'fantasy'];
+                else if (i % 6 === 0) labels = ['cars', 'automotive'];
+
+                // විවිධත්වය සඳහා පොදු labels කිහිපයක් එකතු කිරීම
+                if (i % 3 === 0) labels.push('popular');
+                if (i % 4 === 0) labels.push('new');
+                if (i % 5 === 0) labels.push('trending');
+
+
+                allWallpapersData.push({
+                    id: `F${i}`,
+                    src: `https://placehold.co/300x533/${bgColor}/${textColor}?text=F${i}`,
+                    alt: `Featured Wallpaper ${i}`,
+                    title: `Wallpaper ${i}`,
+                    description: i % 2 === 0 ? "Dynamic shapes and colors." : "Explore the depths of space.",
+                    labels: labels // labels මෙහිදී එකතු කරන්න
+                });
             }
 
-            wallpapersToDisplay.forEach(wallpaper => {
-                const wallpaperCardHtml = `
-                    <div class="bg-black bg-opacity-50 backdrop-blur-sm rounded-xl p-4 shadow-2xl border border-gray-700 transform hover:scale-105 transition duration-300 group cursor-pointer"
-                         data-wallpaper-id="${wallpaper.id}"
-                         data-wallpaper-title="${wallpaper.title}"
-                         data-wallpaper-description="${wallpaper.description}"
-                         data-wallpaper-src="${wallpaper.src}">
-                        <img src="${wallpaper.src}" alt="${wallpaper.alt}" class="w-full h-80 object-cover rounded-lg mb-4 shadow-md group-hover:shadow-xl transition duration-300">
-                        <button class="mt-4 w-full py-2 bg-gradient-to-r from-purple-500 to-indigo-600 text-white font-medium rounded-full shadow-md hover:shadow-lg transform hover:scale-105 transition duration-300">Download</button>
-                    </div>
-                `;
-                featuredWallpapersContainer.insertAdjacentHTML('beforeend', wallpaperCardHtml);
+            const wallpapersPerPage = 24;
+            let currentPageIndex = 0; // වත්මන් පිටුවේ index (පළමු පිටුව සඳහා 0, දෙවන පිටුව සඳහා 1, ආදිය)
+            let currentFilterCategory = null; // පෙරහන් කිරීමට කාණ්ඩය ගබඩා කරයි
+
+            // වත්මන් පිටුව සඳහා wallpapers render කිරීමේ ශ්‍රිතය
+            function renderWallpapers() {
+                featuredWallpapersContainer.innerHTML = ''; // පවතින wallpapers ඉවත් කරන්න
+
+                let filteredWallpapers = allWallpapersData;
+
+                // කාණ්ඩ පෙරහනක් තෝරාගෙන තිබේ නම් එය යොදන්න
+                if (currentFilterCategory) {
+                    filteredWallpapers = allWallpapersData.filter(wallpaper =>
+                        wallpaper.labels.includes(currentFilterCategory)
+                    );
+                    // featured section එකේ මාතෘකාව යාවත්කාලීන කරන්න
+                    if (featuredWallpapersTitle) {
+                        featuredWallpapersTitle.textContent = `Wallpapers in "${currentFilterCategory.charAt(0).toUpperCase() + currentFilterCategory.slice(1)}" Category`;
+                    }
+                    loadMoreButton.textContent = `Load More ${currentFilterCategory.charAt(0).toUpperCase() + currentFilterCategory.slice(1)} Wallpapers`;
+                } else {
+                    if (featuredWallpapersTitle) {
+                        featuredWallpapersTitle.textContent = "Featured Wallpapers";
+                    }
+                    loadMoreButton.textContent = "Load More Wallpapers";
+                }
+
+
+                const startIndex = currentPageIndex * wallpapersPerPage;
+                const endIndex = startIndex + wallpapersPerPage;
+
+                const wallpapersToDisplay = [];
+                // පෙරහන් කළ wallpapers හරහා loop කරන්න, pagination සහ looping හැසිරවීම
+                for (let i = startIndex; i < endIndex; i++) {
+                    // පෙරහන් කළ array දිග ඉක්මවා ගියහොත් නැවත ආරම්භයට loop කිරීමට modulo භාවිතා කරන්න
+                    wallpapersToDisplay.push(filteredWallpapers[i % filteredWallpapers.length]);
+                }
+
+                if (wallpapersToDisplay.length === 0 && currentFilterCategory) {
+                    featuredWallpapersContainer.innerHTML = '<p class="text-center text-gray-400 text-lg col-span-full">No wallpapers found for this category.</p>';
+                    loadMoreButton.style.display = 'none'; // ප්‍රතිඵල නොමැති නම් load more සඟවන්න
+                    return;
+                } else if (wallpapersToDisplay.length === 0) {
+                     featuredWallpapersContainer.innerHTML = '<p class="text-center text-gray-400 text-lg col-span-full">No wallpapers to display.</p>';
+                     loadMoreButton.style.display = 'none';
+                     return;
+                } else {
+                    loadMoreButton.style.display = 'block'; // ප්‍රතිඵල තිබේ නම් load more දෘශ්‍යමාන බවට සහතික වන්න
+                }
+
+
+                wallpapersToDisplay.forEach(wallpaper => {
+                    const wallpaperCardHtml = `
+                        <div class="bg-black bg-opacity-50 backdrop-blur-sm rounded-xl p-4 shadow-2xl border border-gray-700 transform hover:scale-105 transition duration-300 group cursor-pointer"
+                             data-wallpaper-id="${wallpaper.id}"
+                             data-wallpaper-title="${wallpaper.title}"
+                             data-wallpaper-description="${wallpaper.description}"
+                             data-wallpaper-src="${wallpaper.src}"
+                             data-wallpaper-labels="${wallpaper.labels.join(',')}" >
+                            <img src="${wallpaper.src}" alt="${wallpaper.alt}" class="w-full h-80 object-cover rounded-lg mb-4 shadow-md group-hover:shadow-xl transition duration-300">
+                            <button class="mt-4 w-full py-2 bg-gradient-to-r from-purple-500 to-indigo-600 text-white font-medium rounded-full shadow-md hover:shadow-lg transform hover:scale-105 transition duration-300">Download</button>
+                        </div>
+                    `;
+                    featuredWallpapersContainer.insertAdjacentHTML('beforeend', wallpaperCardHtml);
+                });
+
+                // අලුතින් render කළ wallpaper card වලට event listeners එකතු කිරීම
+                document.querySelectorAll('#featuredWallpapersContainer > div').forEach(card => {
+                    card.addEventListener('click', (event) => {
+                        // බොත්තම ක්ලික් කිරීමෙන් card click එකක් ඇතිවීම වළක්වන්න
+                        if (event.target.tagName === 'BUTTON') {
+                            return;
+                        }
+
+                        const wallpaperId = card.dataset.wallpaperId;
+                        const wallpaperTitle = card.dataset.wallpaperTitle;
+                        const wallpaperDescription = card.dataset.wallpaperDescription;
+                        const wallpaperSrc = card.dataset.wallpaperSrc;
+                        const wallpaperLabels = card.dataset.wallpaperLabels; // labels ලබා ගැනීම
+
+                        // Supabase හි click එක track කිරීම
+                        trackWallpaperClick(wallpaperId);
+
+                        // labels detail.html වෙත යැවීම
+                        const detailPageUrl = `detail.html?id=${wallpaperId}&title=${encodeURIComponent(wallpaperTitle)}&description=${encodeURIComponent(wallpaperDescription)}&src=${encodeURIComponent(wallpaperSrc)}&labels=${encodeURIComponent(wallpaperLabels)}`;
+                        window.open(detailPageUrl, '_blank');
+                    });
+                });
+
+                // නව අන්තර්ගතය load කිරීමෙන් පසු featured section එකේ ඉහළට scroll කරන්න
+                if (currentFilterCategory || currentPageIndex > 0) {
+                    window.scrollTo({ top: featuredWallpapersContainer.offsetTop - 100, behavior: 'smooth' });
+                }
+            }
+
+            // URL parameters parse කිරීමේ ශ්‍රිතය
+            function getUrlParameter(name) {
+                name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+                var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+                var results = regex.exec(location.search);
+                return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+            };
+
+
+            // category බොත්තම් සඳහා event listeners
+            document.querySelectorAll('.category-button').forEach(button => {
+                button.addEventListener('click', (event) => {
+                    const category = event.target.dataset.category;
+                    currentFilterCategory = category;
+                    currentPageIndex = 0; // නව පෙරහන සඳහා pagination reset කරන්න
+                    renderWallpapers();
+                });
             });
 
-            // Add event listeners to the newly rendered wallpaper cards
-            document.querySelectorAll('#featuredWallpapersContainer > div').forEach(card => {
-                card.addEventListener('click', (event) => {
-                    // Prevent button click from triggering the card click
-                    if (event.target.tagName === 'BUTTON') {
-                        return;
+            // Initial render call moved here, after all elements are defined and Supabase is ready
+            const urlCategory = getUrlParameter('category');
+            if (urlCategory) {
+                currentFilterCategory = urlCategory;
+            }
+            renderWallpapers(); // ආරම්භක පෙරහන හෝ පෙරහනක් නොමැතිව wallpapers render කරන්න
+
+
+            // "Load More Wallpapers" බොත්තම සඳහා event listener
+            loadMoreButton.addEventListener('click', () => {
+                let totalWallpapersToConsider = currentFilterCategory ? allWallpapersData.filter(wallpaper => wallpaper.labels.includes(currentFilterCategory)).length : allWallpapersData.length;
+                let totalPages = Math.ceil(totalWallpapersToConsider / wallpapersPerPage);
+
+                currentPageIndex = (currentPageIndex + 1) % totalPages;
+
+                if (totalPages === 0) currentPageIndex = 0;
+
+                renderWallpapers();
+            });
+
+            // --- Supabase Click Tracking ---
+            async function trackWallpaperClick(wallpaperId) {
+                try {
+                    const { data, error } = await supabase
+                        .from('clicks') // Supabase හි ඔබේ table නාමය (උදා: 'clicks')
+                        .insert([
+                            { wallpaper_id: wallpaperId }
+                        ]);
+
+                    if (error) {
+                        console.error(`Error tracking click for ${wallpaperId}:`, error.message);
+                    } else {
+                        console.log(`Click tracked for wallpaper ${wallpaperId}:`, data);
+                    }
+                } catch (error) {
+                    console.error("Network error tracking click:", error);
+                }
+            }
+
+            // --- Trending/Popular දත්ත සඳහා Supabase Edge Function ---
+            // මෙම logic එක හසුරුවන 'get-trending-wallpapers' නම් Edge Function එකක් ඔබේ Supabase project එකේ deploy කර ඇති බවට සහතික වන්න.
+            async function getAggregatedClicks(days) {
+                try {
+                    const response = await fetch(`${EDGE_FUNCTION_URL}?period=${days}`, {
+                        method: 'GET',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        }
+                    });
+
+                    if (response.ok) {
+                        const data = await response.json();
+                        const aggregated = data.map(item => {
+                            const wallpaper = allWallpapersData.find(w => w.id === item.wallpaperId);
+                            return wallpaper ? { ...wallpaper, clicks: item.clicks } : null;
+                        }).filter(Boolean);
+
+                        return aggregated;
+                    } else {
+                        console.error(`Error fetching aggregated clicks for ${days} days:`, response.status, response.statusText);
+                        return [];
+                    }
+                } catch (error) {
+                    console.error("Network error fetching aggregated clicks:", error);
+                    return [];
+                }
+            }
+
+            // --- Modal Functions ---
+            function showModal(title, message, content = '') {
+                modalTitle.textContent = title;
+                modalMessage.textContent = message;
+                modalContent.innerHTML = content;
+                messageModal.classList.remove('hidden');
+                messageModal.classList.add('flex');
+            }
+
+            function hideModal() {
+                modalTitle.textContent = '';
+                modalMessage.textContent = '';
+                modalContent.innerHTML = '';
+                messageModal.classList.add('hidden');
+                messageModal.classList.remove('flex');
+            }
+
+            closeModalButton.addEventListener('click', hideModal);
+            messageModal.addEventListener('click', (event) => {
+                if (event.target === messageModal) {
+                    hideModal();
+                }
+            });
+
+            // --- Trending සහ Popular බොත්තම් Logic ---
+            trendingButton.addEventListener('click', async () => {
+                showModal('Fetching Trending Wallpapers', 'Please wait while we analyze the latest trends...');
+                try {
+                    const trendingData = await getAggregatedClicks(7); // පසුගිය දින 7
+                    let contentHtml = '<p class="font-bold mb-2">Top Trending Wallpapers (Last 7 Days):</p>';
+                    if (trendingData.length > 0) {
+                        trendingData.slice(0, 5).forEach(item => { // Top 5 පෙන්වන්න
+                            contentHtml += `<p>${item.title}: ${item.clicks} Clicks</p>`;
+                        });
+                    } else {
+                        contentHtml += '<p>No trending wallpapers found for the last 7 days.</p>';
                     }
 
-                    const wallpaperId = card.dataset.wallpaperId;
-                    const wallpaperTitle = card.dataset.wallpaperTitle;
-                    const wallpaperDescription = card.dataset.wallpaperDescription;
-                    const wallpaperSrc = card.dataset.wallpaperSrc;
-
-                    // Simulate opening a detailed post page in a new tab
-                    // In a real application, this would be a dedicated HTML page or a dynamic route
-                    const detailPageUrl = `detail.html?id=${wallpaperId}&title=${encodeURIComponent(wallpaperTitle)}&description=${encodeURIComponent(wallpaperDescription)}&src=${encodeURIComponent(wallpaperSrc)}`;
-                    window.open(detailPageUrl, '_blank');
-                });
+                    modalTitle.textContent = 'Trending Wallpapers Analysis';
+                    modalMessage.textContent = 'Here are the current trending wallpapers based on recent activity:';
+                    modalContent.innerHTML = contentHtml;
+                } catch (error) {
+                    modalTitle.textContent = 'Error';
+                    modalMessage.textContent = 'Failed to fetch trending data. Please try again later.';
+                    modalContent.innerHTML = `<p class="text-red-400">Error details: ${error.message}</p>`;
+                    console.error('Error fetching trending data:', error);
+                }
             });
 
-            // Scroll to top of the featured section after loading new content
-            window.scrollTo({ top: featuredWallpapersContainer.offsetTop - 100, behavior: 'smooth' });
-        }
+            popularButton.addEventListener('click', async () => {
+                showModal('Fetching Popular Wallpapers', 'Please wait while we gather popular choices...');
+                try {
+                    const popularData = await getAggregatedClicks(30); // පසුගිය දින 30
+                    let contentHtml = '<p class="font-bold mb-2">Most Popular Wallpapers (Last 30 Days):</p>';
+                    if (popularData.length > 0) {
+                        popularData.slice(0, 5).forEach(item => { // Top 5 පෙන්වන්න
+                            contentHtml += `<p>${item.title}: ${item.clicks} Clicks</p>`;
+                        });
+                    } else {
+                        contentHtml += '<p>No popular wallpapers found for the last 30 days.</p>';
+                    }
 
-        // Initial load of wallpapers when the page loads
-        document.addEventListener('DOMContentLoaded', renderWallpapers);
-
-        // Event listener for "Load More Wallpapers" button
-        loadMoreButton.addEventListener('click', () => {
-            currentPageIndex = (currentPageIndex + 1) % (Math.ceil(allWallpapersData.length / wallpapersPerPage));
-            renderWallpapers();
-        });
-
-        // --- Modal Functions (unchanged from previous version) ---
-        function showModal(title, message, content = '') {
-            modalTitle.textContent = title;
-            modalMessage.textContent = message;
-            modalContent.innerHTML = content;
-            messageModal.classList.remove('hidden');
-            messageModal.classList.add('flex');
-        }
-
-        function hideModal() {
-            modalTitle.textContent = '';
-            modalMessage.textContent = '';
-            modalContent.innerHTML = '';
-            messageModal.classList.add('hidden');
-            messageModal.classList.remove('flex');
-        }
-
-        closeModalButton.addEventListener('click', hideModal);
-        messageModal.addEventListener('click', (event) => {
-            if (event.target === messageModal) {
-                hideModal();
-            }
-        });
-
-        // --- Trending and Popular Button Logic (unchanged from previous version) ---
-        trendingButton.addEventListener('click', async () => {
-            showModal('Fetching Trending Wallpapers', 'Please wait while we analyze the latest trends...');
-            try {
-                await new Promise(resolve => setTimeout(resolve, 1500));
-                const trendingData = [
-                    { name: "Aurora Borealis", downloads: "1.2M", views: "3.5M" },
-                    { name: "Cyberpunk City", downloads: "980K", views: "2.8M" },
-                    { name: "Minimalist Geometry", downloads: "750K", views: "2.1M" }
-                ];
-                let contentHtml = '<p class="font-bold mb-2">Top Trending:</p>';
-                trendingData.forEach(item => {
-                    contentHtml += `<p>${item.name}: ${item.downloads} Downloads, ${item.views} Views</p>`;
-                });
-                modalTitle.textContent = 'Trending Wallpapers Analysis';
-                modalMessage.textContent = 'Here are the current trending wallpapers based on recent activity:';
-                modalContent.innerHTML = contentHtml;
-            } catch (error) {
-                modalTitle.textContent = 'Error';
-                modalMessage.textContent = 'Failed to fetch trending data. Please try again later.';
-                modalContent.innerHTML = `<p class="text-red-400">Error details: ${error.message}</p>`;
-                console.error('Error fetching trending data:', error);
-            }
-        });
-
-        popularButton.addEventListener('click', async () => {
-            showModal('Fetching Popular Wallpapers', 'Please wait while we gather popular choices...');
-            try {
-                await new Promise(resolve => setTimeout(resolve, 1500));
-                const popularData = [
-                    { name: "Mountain Landscape", rating: "4.8/5", downloads: "2.5M" },
-                    { name: "Ocean Sunset", rating: "4.7/5", downloads: "2.1M" },
-                    { name: "Abstract Swirls", rating: "4.6/5", downloads: "1.8M" }
-                ];
-                let contentHtml = '<p class="font-bold mb-2">Most Popular:</p>';
-                popularData.forEach(item => {
-                    contentHtml += `<p>${item.name}: ${item.rating} Rating, ${item.downloads} Downloads</p>`;
-                });
-                modalTitle.textContent = 'Popular Wallpapers Analysis';
-                modalMessage.textContent = 'Here are the most popular wallpapers based on overall engagement:';
-                modalContent.innerHTML = contentHtml;
-            } catch (error) {
-                modalTitle.textContent = 'Error';
-                modalMessage.textContent = 'Failed to fetch popular data. Please try again later.';
-                modalContent.innerHTML = `<p class="text-red-400">Error details: ${error.message}</p>`;
-                console.error('Error fetching popular data:', error);
-            }
-        });
+                    modalTitle.textContent = 'Popular Wallpapers Analysis';
+                    modalMessage.textContent = 'Here are the most popular wallpapers based on overall engagement:';
+                    modalContent.innerHTML = contentHtml;
+                } catch (error) {
+                    modalTitle.textContent = 'Error';
+                    modalMessage.textContent = 'Failed to fetch popular data. Please try again later.';
+                    modalContent.innerHTML = `<p class="text-red-400">Error details: ${error.message}</p>`;
+                    console.error('Error fetching popular data:', error);
+                }
+            });
+        }; // End of window.onload
     </script>
 </body>
 </html>
