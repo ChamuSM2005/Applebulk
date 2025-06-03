@@ -613,6 +613,8 @@
 
                 if (error) {
                     console.error(`Error fetching aggregated clicks with timeframe ${timeframeInDays} days:`, error.message);
+                    // Provide a user-friendly message if data fetching fails
+                    showModal('Error', 'Failed to load trending/popular wallpapers. Please ensure your Supabase "wallpapers" table has data.');
                     return [];
                 }
 
@@ -697,6 +699,7 @@
 
                             trackWallpaperClick(wallpaperId); // Track click
                             const detailPageUrl = `detail.html?id=${wallpaperId}&title=${encodeURIComponent(wallpaperTitle)}&description=${encodeURIComponent(wallpaperDescription)}&src=${encodeURIComponent(wallpaperSrc)}&labels=${encodeURIComponent(wallpaperLabels)}`;
+                            console.log('Generated Detail Page URL (Trending):', detailPageUrl); // Debugging line
                             window.open(detailPageUrl, '_blank'); // Open in new tab
                             hideModal(); // Close modal after opening detail page
                         });
@@ -704,9 +707,9 @@
 
                 } catch (error) {
                     modalTitle.textContent = 'Error';
-                    modalMessage.textContent = 'Failed to fetch popular data. Please try again later.';
+                    modalMessage.textContent = 'Failed to fetch trending data. Please try again later.';
                     modalContent.innerHTML = `<p class="text-red-400">Error details: ${error.message}</p>`;
-                    console.error('Error fetching popular data:', error);
+                    console.error('Error fetching trending data:', error);
                 }
             });
 
@@ -756,6 +759,7 @@
 
                             trackWallpaperClick(wallpaperId); // Track click
                             const detailPageUrl = `detail.html?id=${wallpaperId}&title=${encodeURIComponent(wallpaperTitle)}&description=${encodeURIComponent(wallpaperDescription)}&src=${encodeURIComponent(wallpaperSrc)}&labels=${encodeURIComponent(wallpaperLabels)}`;
+                            console.log('Generated Detail Page URL (Popular):', detailPageUrl); // Debugging line
                             window.open(detailPageUrl, '_blank'); // Open in new tab
                             hideModal(); // Close modal after opening detail page
                         });
@@ -772,43 +776,46 @@
             // --- Supabase වෙතින් කාණ්ඩ ලබා ගැනීමේ ශ්‍රිතය ---
             async function fetchCategoriesFromSupabase() {
                 try {
-                    // Fetch all wallpapers to get their labels
-                    const { data, error } = await supabase
-                        .from('wallpapers')
-                        .select('labels, image_url'); // Select labels and image_url
+                    const desiredCategories = ['Green', 'Anime']; // Explicitly define desired categories
+                    const categoriesData = [];
 
-                    if (error) {
-                        console.error('Error fetching categories:', error.message);
-                        return [];
+                    for (const categoryName of desiredCategories) {
+                        // Fetch one wallpaper for each category to get a representative image
+                        const { data: wallpapers, error } = await supabase
+                            .from('wallpapers')
+                            .select('image_url')
+                            .contains('labels', [categoryName])
+                            .limit(1); // Only need one image
+
+                        if (error) {
+                            console.error(`Error fetching image for category ${categoryName}:`, error.message);
+                            // Continue to next category even if one fails
+                            categoriesData.push({
+                                name: categoryName,
+                                imageUrl: `https://placehold.co/400x225/000000/FFFFFF?text=${categoryName}` // Fallback
+                            });
+                            continue;
+                        }
+
+                        let imageUrl = `https://placehold.co/400x225/000000/FFFFFF?text=${categoryName}`; // Default fallback
+                        if (wallpapers && wallpapers.length > 0) {
+                            imageUrl = wallpapers[0].image_url;
+                        }
+
+                        categoriesData.push({
+                            name: categoryName,
+                            imageUrl: imageUrl
+                        });
                     }
 
-                    const allLabels = new Set();
-                    const categoryImages = {}; // To store a representative image for each category
+                    // Sort categories if desired (e.g., alphabetically)
+                    categoriesData.sort((a, b) => a.name.localeCompare(b.name));
 
-                    data.forEach(wallpaper => {
-                        if (wallpaper.labels && Array.isArray(wallpaper.labels)) {
-                            wallpaper.labels.forEach(label => {
-                                // Only include "Green" and "Anime" categories
-                                if (label === 'Green' || label === 'Anime') {
-                                    allLabels.add(label);
-                                    if (!categoryImages[label]) {
-                                        categoryImages[label] = wallpaper.image_url; // Store first image found for category
-                                    }
-                                }
-                            });
-                        }
-                    });
-
-                    // Convert set to array and sort if needed
-                    const filteredCategories = Array.from(allLabels).sort();
-
-                    return filteredCategories.map(label => ({
-                        name: label,
-                        imageUrl: categoryImages[label] || `https://placehold.co/400x225/000000/FFFFFF?text=${label}` // Fallback placeholder
-                    }));
+                    return categoriesData;
 
                 } catch (err) {
                     console.error('Network error fetching categories:', err);
+                    showModal('Error', 'Failed to load categories. Please ensure your Supabase "wallpapers" table has data with "Green" and "Anime" labels.');
                     return [];
                 }
             }
@@ -819,7 +826,7 @@
                 categoriesCarousel.innerHTML = ''; // Clear existing content
 
                 if (categories.length === 0) {
-                    categoriesCarousel.innerHTML = '<p class="text-center text-gray-400 text-lg col-span-full">No categories found or filtered for Green/Anime.</p>';
+                    categoriesCarousel.innerHTML = '<p class="text-center text-gray-400 text-lg col-span-full">No categories found or filtered for Green/Anime. Please add data to your Supabase "wallpapers" table with these labels.</p>';
                     return;
                 }
 
@@ -842,11 +849,9 @@
                         const category = card.dataset.categoryName;
                         currentFilterCategory = category;
                         currentPageOffset = 0; // Reset pagination for new filter
-                        renderWallpapers(); // Render wallpapers for the selected category
-                        // Update URL to reflect the selected category
+                        // Use window.location.href for full reload to bypass pushState security error
                         const newUrl = new URL(window.location.href);
                         newUrl.searchParams.set('category', category);
-                        // Use window.location.href for full reload to bypass pushState security error
                         window.location.href = newUrl.href;
                     });
                 });
