@@ -7,7 +7,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2" async></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <style>
         /* Custom CSS for the animated background */
         @import url('https://fonts.googleapis.com/css?family=Exo:400,700');
@@ -347,7 +347,7 @@
                             <img src="https://placehold.co/300x200/3a0a0a/FFFFFF?text=Gaming+1" alt="Gaming Wallpaper 1" class="w-full h-auto rounded-lg shadow-md hover:shadow-xl transition duration-300 cursor-pointer object-cover">
                             <img src="https://placehold.co/300x200/4a0a0a/FFFFFF?text=Gaming+2" alt="Gaming Wallpaper 2" class="w-full h-auto rounded-lg shadow-md hover:shadow-xl transition duration-300 cursor-pointer object-cover">
                             <img src="https://placehold.co/300x200/5a0a0a/FFFFFF?text=Gaming+3" alt="Gaming Wallpaper 3" class="w-full h-auto rounded-lg shadow-md hover:shadow-xl transition duration-300 cursor-pointer object-cover">
-                            <img src="https://placehold.co/300x200/6a0a0a/FFFFFF?text=Gaming+4" alt="Gaming Wallpaper 4" class="w-full h-auto rounded-lg shadow-md hover:shadow-xl transition duration-300 cursor-pointer object-cover">
+                            <img src="https://placehold.co/300x200/6a6a0a/FFFFFF?text=Gaming+4" alt="Gaming Wallpaper 4" class="w-full h-auto rounded-lg shadow-md hover:shadow-xl transition duration-300 cursor-pointer object-cover">
                         </div>
                         <button class="mt-6 w-full py-3 bg-gradient-to-r from-gray-700 to-gray-800 text-white font-semibold rounded-full shadow-lg hover:shadow-xl transform hover:scale-105 transition duration-300 category-button" data-category="gaming">View More</button>
                     </div>
@@ -393,22 +393,31 @@
     </div>
 
     <script>
-        // Supabase Client Initialization
-        // ඔබේ Supabase Dashboard එකේ "API Docs" යටතේ ඇති Project URL එක.
-        const SUPABASE_URL = 'https://bddphtmddbfatuibppsp.supabase.co';
-        // ඔබේ Supabase Dashboard එකේ "API Docs" යටතේ ඇති "anon (public)" key එක.
-        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZS1kZW1vIiwicm9sZSI6ImFub24iLCJpYXQiOjE2NDU4MzQ5NDEsImV4cCI6MTgwMzU3MjU0MX0.y7N6qXhZJv5K_lB0R8w5s7F_3X_l7G4sJ5M2tN1Q9_w'; 
-
-        // Supabase client එක ගෝලීයව define කර ඇත
-        const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-
-        // Trending/Popular දත්ත සඳහා Edge Function URL එක.
-        // මෙය ඔබේ Supabase project එකේ deploy කර ඇති Edge Function එකේ URL එක විය යුතුය.
-        const EDGE_FUNCTION_URL = 'https://bddphtmddbfatuibppsp.supabase.co/functions/v1/get-trending-wallpapers';
-
-
         // window.onload event listener to ensure all resources and DOM elements are fully loaded
         window.onload = function() {
+            // Supabase Client Initialization
+            // ඔබේ Supabase Dashboard එකේ "API Docs" යටතේ ඇති Project URL එක.
+            const SUPABASE_URL = 'https://bddphtmddbfatuibppsp.supabase.co';
+            // ඔබේ Supabase Dashboard එකේ "API Docs" යටතේ ඇති "anon (public)" key එක.
+            const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJkZHBodG1kZGJmYXR1aWJwcHNwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDg4ODc3MzMsImV4cCI6MjA2NDQ2MzczM30.u484-EmP6RqM8UQS5gv0RaYj4szI4iGIFffv6Z3wJaw'; 
+
+            // Supabase client එක window.supabase හරහා initialize කර ඇත.
+            // Supabase library load වීමට අපොහොසත් වුවහොත් දෝෂ හැසිරවීම.
+            if (!window.supabase) {
+                console.error("Supabase library failed to load. Please check the script URL or network connection.");
+                showModal('Error', 'Failed to load Supabase library. Please try again later.');
+                return;
+            }
+            const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+            // Trending/Popular දත්ත සඳහා Edge Function URL එක.
+            // මෙය ඔබේ Supabase project එකේ deploy කර ඇති Edge Function එකේ URL එක විය යුතුය.
+            const EDGE_FUNCTION_URL = 'https://bddphtmddbfatuibppsp.supabase.co/functions/v1/get-trending-wallpapers';
+
+            // වැදගත්: මෙම Edge Function එක ඔබගේ Supabase project එකේ නිවැරදිව deploy කර ඇති බවට සහතික වන්න.
+            // එසේ නොමැතිනම් 'Failed to fetch' දෝෂය දිගටම ලැබෙනු ඇත.
+
+
             // බොත්තම් සහ modal element වලට reference ලබා ගැනීම
             const trendingButton = document.getElementById('trendingButton');
             const popularButton = document.getElementById('popularButton');
@@ -422,6 +431,23 @@
             const featuredWallpapersContainer = document.getElementById('featuredWallpapersContainer');
             const loadMoreButton = document.getElementById('loadMoreButton');
             const featuredWallpapersTitle = document.getElementById('featuredWallpapersTitle');
+
+            // Test Supabase connection (optional, for debugging)
+            async function testSupabase() {
+                try {
+                    const { data, error } = await supabase.from('clicks').select('*').limit(1);
+                    if (error) {
+                        console.error('Supabase test query failed:', error.message);
+                        showModal('Error', 'Failed to connect to Supabase: ' + error.message);
+                    } else {
+                        console.log('Supabase connection successful:', data);
+                    }
+                } catch (err) {
+                    console.error('Network error during Supabase test:', err);
+                    showModal('Error', 'Network error connecting to Supabase.');
+                }
+            }
+            testSupabase(); // Call the test function
 
 
             // --- Wallpaper දත්ත සහ Pagination Logic ---
@@ -518,7 +544,7 @@
                              data-wallpaper-description="${wallpaper.description}"
                              data-wallpaper-src="${wallpaper.src}"
                              data-wallpaper-labels="${wallpaper.labels.join(',')}" >
-                            <img src="${wallpaper.src}" alt="${wallpaper.alt}" class="w-full h-80 object-cover rounded-lg mb-4 shadow-md group-hover:shadow-xl transition duration-300">
+                            <img src="https://placehold.co/300x533/000000/FFFFFF?text=Loading..." alt="${wallpaper.alt}" class="w-full h-80 object-cover rounded-lg mb-4 shadow-md group-hover:shadow-xl transition duration-300" onerror="this.onerror=null;this.src='${wallpaper.src}';">
                             <button class="mt-4 w-full py-2 bg-gradient-to-r from-purple-500 to-indigo-600 text-white font-medium rounded-full shadow-md hover:shadow-lg transform hover:scale-105 transition duration-300">Download</button>
                         </div>
                     `;
@@ -620,7 +646,8 @@
                         method: 'GET',
                         headers: {
                             'Content-Type': 'application/json'
-                        }
+                        },
+                        mode: 'cors' // CORS ගැටලු නිරාකරණය කිරීමට මෙය එකතු කරන ලදී
                     });
 
                     if (response.ok) {
