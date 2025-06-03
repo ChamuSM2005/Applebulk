@@ -223,9 +223,7 @@
         // Get elements
         const detailPageTitle = document.getElementById('detailPageTitle');
         const wallpaperImage = document.getElementById('wallpaperImage');
-        // const wallpaperTitle = document.getElementById('wallpaperTitle'); // Removed
         const wallpaperDescription = document.getElementById('wallpaperDescription');
-        // const wallpaperLabelsContainer = document.getElementById('wallpaperLabels'); // Removed
         const downloadButton = document.getElementById('downloadButton');
 
         const messageModal = document.getElementById('messageModal');
@@ -233,6 +231,9 @@
         const modalTitle = document.getElementById('modalTitle');
         const modalMessage = document.getElementById('modalMessage');
         const modalContent = document.getElementById('modalContent');
+
+        // State variable to track download button clicks
+        let downloadClickCount = 0;
 
         // Function to parse URL parameters
         function getUrlParameter(name) {
@@ -304,13 +305,10 @@
             const title = getUrlParameter('title'); // Keep title for download filename
             const description = getUrlParameter('description');
             const src = getUrlParameter('src');
-            // const labels = getUrlParameter('labels'); // Removed
 
-            if (id && src) { // Title is no longer mandatory for display
+            if (id && src) {
                 wallpaperImage.src = src;
                 wallpaperDescription.textContent = description || ''; // Show nothing if description is empty
-
-                // No longer displaying wallpaperTitle or wallpaperLabelsContainer
             } else {
                 showModal('Error', 'Wallpaper details not found. Please go back to the home page and select a wallpaper.');
             }
@@ -319,29 +317,34 @@
             downloadButton.addEventListener('click', () => {
                 const wallpaperId = getUrlParameter('id');
                 const wallpaperSrc = getUrlParameter('src');
-                const wallpaperTitleForDownload = getUrlParameter('title'); // Use this for filename
+                const wallpaperTitleForDownload = getUrlParameter('title');
 
                 if (wallpaperSrc) {
-                    // 1. Trigger automatic download of the wallpaper FIRST
-                    const a = document.createElement('a');
-                    a.href = wallpaperSrc;
-                    // Attempt to get a filename from the URL, otherwise use a generic name
-                    const filename = wallpaperSrc.substring(wallpaperSrc.lastIndexOf('/') + 1) || 'wallpaper.jpg';
-                    a.download = wallpaperTitleForDownload ? `${wallpaperTitleForDownload.replace(/[^a-z0-9]/gi, '_')}.jpg` : filename;
-                    document.body.appendChild(a);
-                    a.click();
-                    document.body.removeChild(a);
+                    downloadClickCount++; // Increment click count
 
-                    // 2. Track the download in Supabase
-                    if (wallpaperId) {
-                        trackWallpaperDownload(wallpaperId);
+                    if (downloadClickCount === 1) {
+                        // First click: Open Adsterra direct link in a new tab
+                        window.open('https://truckwinding.com/qjrwgdh5?key=9960743e1ca2babd0c81e50b86a83eda', '_blank');
+                        downloadButton.innerHTML = '<i class="fas fa-download mr-3"></i> Click to Download'; // Update button text
+                    } else if (downloadClickCount === 2) {
+                        // Second click: Trigger automatic download
+                        const a = document.createElement('a');
+                        a.href = wallpaperSrc;
+                        const filename = wallpaperSrc.substring(wallpaperSrc.lastIndexOf('/') + 1) || 'wallpaper.jpg';
+                        a.download = wallpaperTitleForDownload ? `${wallpaperTitleForDownload.replace(/[^a-z0-9]/gi, '_')}.jpg` : filename;
+                        document.body.appendChild(a);
+                        a.click();
+                        document.body.removeChild(a);
+
+                        // Track the download in Supabase
+                        if (wallpaperId) {
+                            trackWallpaperDownload(wallpaperId);
+                        }
+
+                        // Reset click count and button text for next sequence
+                        downloadClickCount = 0;
+                        downloadButton.innerHTML = '<i class="fas fa-download mr-3"></i> Download Wallpaper';
                     }
-
-                    // 3. Load Adsterra direct link in the current page AFTER download is initiated
-                    // Use a small timeout to give the browser a moment to start the download
-                    setTimeout(() => {
-                        window.location.href = 'https://truckwinding.com/qjrwgdh5?key=9960743e1ca2babd0c81e50b86a83eda';
-                    }, 100); // 100ms delay
                 } else {
                     showModal('Error', 'Cannot download wallpaper. Image source not found.');
                 }
