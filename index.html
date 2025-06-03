@@ -4,9 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Luxury Wallpapers</title>
+    <!-- Tailwind CSS CDN for modern styling and responsiveness -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts - Inter for general text, Exo for the background context if desired -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome for icons (still needed for TikTok and Instagram) -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Supabase SDK for data fetching -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <style>
         /* Custom CSS for the animated background */
@@ -192,8 +196,8 @@
             margin: auto;
             padding: 20px;
             border-radius: 12px;
-            width: 80%;
-            max-width: 500px;
+            width: 90%; /* Adjusted width for better responsiveness */
+            max-width: 1200px; /* Increased max-width for images */
             box-shadow: 0 5px 15px rgba(0,0,0,0.3);
             position: relative;
             animation: fadeIn 0.3s ease-out;
@@ -220,6 +224,15 @@
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(-20px); }
             to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Hide scrollbar for categories carousel */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;  /* IE and Edge */
+            scrollbar-width: none;  /* Firefox */
         }
     </style>
 </head>
@@ -296,71 +309,20 @@
 
             <section class="mb-12">
                 <h2 class="text-4xl font-bold text-center mb-8 text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-400">Wallpaper Categories</h2>
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                    <div class="bg-black bg-opacity-50 backdrop-blur-sm rounded-xl p-6 shadow-2xl border border-gray-700 transform hover:scale-105 transition duration-300">
-                        <h2 class="text-3xl font-bold mb-6 text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-400">Abstract</h2>
-                        <div class="grid grid-cols-2 gap-4">
-                            <img src="https://placehold.co/300x200/1a2a3a/FFFFFF?text=Abstract+1" alt="Abstract Wallpaper 1" class="w-full h-auto rounded-lg shadow-md hover:shadow-xl transition duration-300 cursor-pointer object-cover">
-                            <img src="https://placehold.co/300x200/2a3a4a/FFFFFF?text=Abstract+2" alt="Abstract Wallpaper 2" class="w-full h-auto rounded-lg shadow-md hover:shadow-xl transition duration-300 cursor-pointer object-cover">
-                            <img src="https://placehold.co/300x200/3a4a5a/FFFFFF?text=Abstract+3" alt="Abstract Wallpaper 3" class="w-full h-auto rounded-lg shadow-md hover:shadow-xl transition duration-300 cursor-pointer object-cover">
-                            <img src="https://placehold.co/300x200/4a4a6a/FFFFFF?text=Abstract+4" alt="Abstract Wallpaper 4" class="w-full h-auto rounded-lg shadow-md hover:shadow-xl transition duration-300 cursor-pointer object-cover">
-                        </div>
-                        <button class="mt-6 w-full py-3 bg-gradient-to-r from-gray-700 to-gray-800 text-white font-semibold rounded-full shadow-lg hover:shadow-xl transform hover:scale-105 transition duration-300 category-button" data-category="abstract">View More</button>
+                <div class="relative w-full max-w-6xl mx-auto">
+                    <div id="categories-carousel" class="flex overflow-x-scroll scroll-smooth pb-4 no-scrollbar gap-6">
+                        <!-- Categories will be dynamically loaded here -->
                     </div>
-
-                    <div class="bg-black bg-opacity-50 backdrop-blur-sm rounded-xl p-6 shadow-2xl border border-gray-700 transform hover:scale-105 transition duration-300">
-                        <h2 class="text-3xl font-bold mb-6 text-transparent bg-clip-text bg-gradient-to-r from-green-400 to-teal-400">Nature</h2>
-                        <div class="grid grid-cols-2 gap-4">
-                            <img src="https://placehold.co/300x200/0f2a1f/FFFFFF?text=Nature+1" alt="Nature Wallpaper 1" class="w-full h-auto rounded-lg shadow-md hover:shadow-xl transition duration-300 cursor-pointer object-cover">
-                            <img src="https://placehold.co/300x200/1f3a2f/FFFFFF?text=Nature+2" alt="Nature Wallpaper 2" class="w-full h-auto rounded-lg shadow-md hover:shadow-xl transition duration-300 cursor-pointer object-cover">
-                            <img src="https://placehold.co/300x200/2f4a3f/FFFFFF?text=Nature+3" alt="Nature Wallpaper 3" class="w-full h-auto rounded-lg shadow-md hover:shadow-xl transition duration-300 cursor-pointer object-cover">
-                            <img src="https://placehold.co/300x200/3f5a4f/FFFFFF?text=Nature+4" alt="Nature Wallpaper 4" class="w-full h-auto rounded-lg shadow-md hover:shadow-xl transition duration-300 cursor-pointer object-cover">
-                        </div>
-                        <button class="mt-6 w-full py-3 bg-gradient-to-r from-gray-700 to-gray-800 text-white font-semibold rounded-full shadow-lg hover:shadow-xl transform hover:scale-105 transition duration-300 category-button" data-category="nature">View More</button>
-                    </div>
-
-                    <div class="bg-black bg-opacity-50 backdrop-blur-sm rounded-xl p-6 shadow-2xl border border-gray-700 transform hover:scale-105 transition duration-300">
-                        <h2 class="text-3xl font-bold mb-6 text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-purple-400">Sci-Fi</h2>
-                        <div class="grid grid-cols-2 gap-4">
-                            <img src="https://placehold.co/300x200/1a1a3a/FFFFFF?text=Sci-Fi+1" alt="Sci-Fi Wallpaper 1" class="w-full h-auto rounded-lg shadow-md hover:shadow-xl transition duration-300 cursor-pointer object-cover">
-                            <img src="https://placehold.co/300x200/2a2a4a/FFFFFF?text=Sci-Fi+2" alt="Sci-Fi Wallpaper 2" class="w-full h-auto rounded-lg shadow-md hover:shadow-xl transition duration-300 cursor-pointer object-cover">
-                            <img src="https://placehold.co/300x200/3a3a5a/FFFFFF?text=Sci-Fi+3" alt="Sci-Fi Wallpaper 3" class="w-full h-auto rounded-lg shadow-md hover:shadow-xl transition duration-300 cursor-pointer object-cover">
-                            <img src="https://placehold.co/300x200/4a4a6a/FFFFFF?text=Sci-Fi+4" alt="Sci-Fi Wallpaper 4" class="w-full h-auto rounded-lg shadow-md hover:shadow-xl transition duration-300 cursor-pointer object-cover">
-                        </div>
-                        <button class="mt-6 w-full py-3 bg-gradient-to-r from-gray-700 to-gray-800 text-white font-semibold rounded-full shadow-lg hover:shadow-xl transform hover:scale-105 transition duration-300 category-button" data-category="sci-fi">View More</button>
-                    </div>
-
-                    <div class="bg-black bg-opacity-50 backdrop-blur-sm rounded-xl p-6 shadow-2xl border border-gray-700 transform hover:scale-105 transition duration-300">
-                        <h2 class="text-3xl font-bold mb-6 text-transparent bg-clip-text bg-gradient-to-r from-gray-400 to-gray-600">Minimalist</h2>
-                        <div class="grid grid-cols-2 gap-4">
-                            <img src="https://placehold.co/300x200/5a5a5a/FFFFFF?text=Minimal+1" alt="Minimalist Wallpaper 1" class="w-full h-auto rounded-lg shadow-md hover:shadow-xl transition duration-300 cursor-pointer object-cover">
-                            <img src="https://placehold.co/300x200/6a6a6a/FFFFFF?text=Minimal+2" alt="Minimalist Wallpaper 2" class="w-full h-auto rounded-lg shadow-md hover:shadow-xl transition duration-300 cursor-pointer object-cover">
-                            <img src="https://placehold.co/300x200/7a7a7a/FFFFFF?text=Minimal+3" alt="Minimalist Wallpaper 3" class="w-full h-auto rounded-lg shadow-md hover:shadow-xl transition duration-300 cursor-pointer object-cover">
-                            <img src="https://placehold.co/300x200/8a8a8a/FFFFFF?text=Minimal+4" alt="Minimalist Wallpaper 4" class="w-full h-auto rounded-lg shadow-md hover:shadow-xl transition duration-300 cursor-pointer object-cover">
-                        </div>
-                        <button class="mt-6 w-full py-3 bg-gradient-to-r from-gray-700 to-gray-800 text-white font-semibold rounded-full shadow-lg hover:shadow-xl transform hover:scale-105 transition duration-300 category-button" data-category="minimalist">View More</button>
-                    </div>
-
-                    <div class="bg-black bg-opacity-50 backdrop-blur-sm rounded-xl p-6 shadow-2xl border border-gray-700 transform hover:scale-105 transition duration-300">
-                        <h2 class="text-3xl font-bold mb-6 text-transparent bg-clip-text bg-gradient-to-r from-red-500 to-purple-500">Gaming</h2>
-                        <div class="grid grid-cols-2 gap-4">
-                            <img src="https://placehold.co/300x200/3a0a0a/FFFFFF?text=Gaming+1" alt="Gaming Wallpaper 1" class="w-full h-auto rounded-lg shadow-md hover:shadow-xl transition duration-300 cursor-pointer object-cover">
-                            <img src="https://placehold.co/300x200/4a0a0a/FFFFFF?text=Gaming+2" alt="Gaming Wallpaper 2" class="w-full h-auto rounded-lg shadow-md hover:shadow-xl transition duration-300 cursor-pointer object-cover">
-                            <img src="https://placehold.co/300x200/5a0a0a/FFFFFF?text=Gaming+3" alt="Gaming Wallpaper 3" class="w-full h-auto rounded-lg shadow-md hover:shadow-xl transition duration-300 cursor-pointer object-cover">
-                            <img src="https://placehold.co/300x200/6a6a0a/FFFFFF?text=Gaming+4" alt="Gaming Wallpaper 4" class="w-full h-auto rounded-lg shadow-md hover:shadow-xl transition duration-300 cursor-pointer object-cover">
-                        </div>
-                        <button class="mt-6 w-full py-3 bg-gradient-to-r from-gray-700 to-gray-800 text-white font-semibold rounded-full shadow-lg hover:shadow-xl transform hover:scale-105 transition duration-300 category-button" data-category="gaming">View More</button>
-                    </div>
-
-                    <div class="bg-black bg-opacity-50 backdrop-blur-sm rounded-xl p-6 shadow-2xl border border-gray-700 transform hover:scale-105 transition duration-300">
-                        <h2 class="text-3xl font-bold mb-6 text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 to-orange-400">Cars</h2>
-                        <div class="grid grid-cols-2 gap-4">
-                            <img src="https://placehold.co/300x200/3a3a0a/FFFFFF?text=Cars+1" alt="Cars Wallpaper 1" class="w-full h-auto rounded-lg shadow-md hover:shadow-xl transition duration-300 cursor-pointer object-cover">
-                            <img src="https://placehold.co/300x200/4a4a0a/FFFFFF?text=Cars+2" alt="Cars Wallpaper 2" class="w-full h-auto rounded-lg shadow-md hover:shadow-xl transition duration-300 cursor-pointer object-cover">
-                            <img src="https://placehold.co/300x200/5a5a0a/FFFFFF?text=Cars+3" alt="Cars Wallpaper 3" class="w-full h-auto rounded-lg shadow-md hover:shadow-xl transition duration-300 cursor-pointer object-cover">
-                            <img src="https://placehold.co/300x200/6a6a0a/FFFFFF?text=Cars+4" alt="Cars Wallpaper 4" class="w-full h-auto rounded-lg shadow-md hover:shadow-xl transition duration-300 cursor-pointer object-cover">
-                        </div>
-                        <button class="mt-6 w-full py-3 bg-gradient-to-r from-gray-700 to-gray-800 text-white font-semibold rounded-full shadow-lg hover:shadow-xl transform hover:scale-105 transition duration-300 category-button" data-category="cars">View More</button>
+                    <!-- Navigation arrows -->
+                    <button id="prevCategory" class="absolute left-0 top-1/2 -translate-y-1/2 bg-gray-800 bg-opacity-70 text-white p-2 rounded-full shadow-lg z-20 hidden md:block">
+                        <i class="fas fa-chevron-left"></i>
+                    </button>
+                    <button id="nextCategory" class="absolute right-0 top-1/2 -translate-y-1/2 bg-gray-800 bg-opacity-70 text-white p-2 rounded-full shadow-lg z-20 hidden md:block">
+                        <i class="fas fa-chevron-right"></i>
+                    </button>
+                    <!-- Pagination dots -->
+                    <div id="category-pagination" class="flex justify-center space-x-2 mt-4">
+                        <!-- Dots will be dynamically added -->
                     </div>
                 </div>
             </section>
@@ -397,26 +359,18 @@
         window.onload = function() {
             // Supabase Client Initialization
             // ඔබේ Supabase Dashboard එකේ "API Docs" යටතේ ඇති Project URL එක.
-            const SUPABASE_URL = 'https://bddphtmddbfatuibppsp.supabase.co';
+            const SUPABASE_URL = 'https://bddphtmddbfatuibppsp.supabase.co'; // Replace with your actual Supabase URL
             // ඔබේ Supabase Dashboard එකේ "API Docs" යටතේ ඇති "anon (public)" key එක.
-            const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJkZHBodG1kZGJmYXR1aWJwcHNwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDg4ODc3MzMsImV4cCI6MjA2NDQ2MzczM30.u484-EmP6RqM8UQS5gv0RaYj4szI4iGIFffv6Z3wJaw'; 
+            const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJkZHBodG1kZGJmYXR1aWJwcHNwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDg4ODc3MzMsImV4cCI6MjA2NDQ2MzczM30.u484-EmP6RqM8UQS5gv0RaYj4szI4iGIFffv6Z3wJaw'; // Replace with your actual Supabase Anon Key
 
             // Supabase client එක window.supabase හරහා initialize කර ඇත.
-            // Supabase library load වීමට අපොහොසත් වුවහොත් දෝෂ හැසිරවීම.
+            // Supabase library load වීමට අපොහොසත් වුවහිට දෝෂ හැසිරවීම.
             if (!window.supabase) {
                 console.error("Supabase library failed to load. Please check the script URL or network connection.");
                 showModal('Error', 'Failed to load Supabase library. Please try again later.');
                 return;
             }
             const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-
-            // Trending/Popular දත්ත සඳහා Edge Function URL එක.
-            // මෙය ඔබේ Supabase project එකේ deploy කර ඇති Edge Function එකේ URL එක විය යුතුය.
-            const EDGE_FUNCTION_URL = 'https://bddphtmddbfatuibppsp.supabase.co/functions/v1/get-trending-wallpapers';
-
-            // වැදගත්: මෙම Edge Function එක ඔබගේ Supabase project එකේ නිවැරදිව deploy කර ඇති බවට සහතික වන්න.
-            // එසේ නොමැතිනම් 'Failed to fetch' දෝෂය දිගටම ලැබෙනු ඇත.
-
 
             // බොත්තම් සහ modal element වලට reference ලබා ගැනීම
             const trendingButton = document.getElementById('trendingButton');
@@ -432,10 +386,24 @@
             const loadMoreButton = document.getElementById('loadMoreButton');
             const featuredWallpapersTitle = document.getElementById('featuredWallpapersTitle');
 
+            // Carousel elements
+            const categoriesCarousel = document.getElementById('categories-carousel');
+            const prevCategoryButton = document.getElementById('prevCategory');
+            const nextCategoryButton = document.getElementById('nextCategory');
+            const categoryPagination = document.getElementById('category-pagination');
+            let categoryCards = []; // Will be populated after DOM is ready
+
+            let carouselInterval;
+            const autoSwipeDelay = 5000; // 5 seconds
+            let isDragging = false;
+            let startX;
+            let scrollLeft;
+            let currentIndex = 0;
+
             // Test Supabase connection (optional, for debugging)
             async function testSupabase() {
                 try {
-                    const { data, error } = await supabase.from('clicks').select('*').limit(1);
+                    const { data, error } = await supabase.from('wallpapers').select('*').limit(1);
                     if (error) {
                         console.error('Supabase test query failed:', error.message);
                         showModal('Error', 'Failed to connect to Supabase: ' + error.message);
@@ -449,103 +417,81 @@
             }
             testSupabase(); // Call the test function
 
+            const wallpapersPerPage = 24;
+            let currentPageOffset = 0; // වත්මන් පිටුවේ ආරම්භක offset එක
+            let currentFilterCategory = null; // පෙරහන් කිරීමට කාණ්ඩය ගබඩා කරයි
+            let hasMoreWallpapers = true; // තවත් wallpapers තිබේදැයි නිරීක්ෂණය කිරීමට
 
-            // --- Wallpaper දත්ත සහ Pagination Logic ---
-            const allWallpapersData = [];
-            // අද්විතීය වර්ණ සහ labels සහිත placeholder wallpapers 48ක් ජනනය කිරීම
-            for (let i = 1; i <= 48; i++) {
-                const hue = (i * 360 / 48) % 360; // විවිධ වර්ණ සඳහා hues බෙදා හැරීම
-                const saturation = 50 + (i % 5) * 5; // saturation සුළු වශයෙන් වෙනස් කිරීම
-                const lightness = 20 + (i % 3) * 5; // lightness සුළු වශයෙන් වෙනස් කිරීම
-                const textColor = 'FFFFFF'; // අඳුරු පසුබිම් සඳහා සුදු අකුරු
-                const bgColor = `${(i * 7 % 256).toString(16).padStart(2, '0')}${(i * 13 % 256).toString(16).padStart(2, '0')}${(i * 19 % 256).toString(16).padStart(2, '0')}`; // hex වර්ණයක් ජනනය කිරීම
+            // Supabase වෙතින් wallpapers ලබා ගැනීමේ ශ්‍රිතය
+            async function fetchWallpapers(offset, limit, category = null) {
+                let query = supabase
+                    .from('wallpapers')
+                    .select('*'); // සියලුම තීරු තෝරන්න
 
-                // නිරූපණය සඳහා index මත පදනම්ව labels පැවරීම
-                let labels = [];
-                if (i % 6 === 1) labels = ['abstract', 'colorful'];
-                else if (i % 6 === 2) labels = ['nature', 'landscape'];
-                else if (i % 6 === 3) labels = ['sci-fi', 'futuristic'];
-                else if (i % 6 === 4) labels = ['minimalist', 'clean'];
-                else if (i % 6 === 5) labels = ['gaming', 'fantasy'];
-                else if (i % 6 === 0) labels = ['cars', 'automotive'];
+                if (category) {
+                    // Use .contains() for JSONB array filtering
+                    query = query.contains('labels', [category]);
+                }
 
-                // විවිධත්වය සඳහා පොදු labels කිහිපයක් එකතු කිරීම
-                if (i % 3 === 0) labels.push('popular');
-                if (i % 4 === 0) labels.push('new');
-                if (i % 5 === 0) labels.push('trending');
+                // created_at අනුව නවතම ඒවා මුලින්ම පෙන්වීමට
+                query = query.order('created_at', { ascending: false });
 
+                // Pagination සඳහා limit සහ offset යොදන්න
+                query = query.range(offset, offset + limit - 1);
 
-                allWallpapersData.push({
-                    id: `F${i}`,
-                    src: `https://placehold.co/300x533/${bgColor}/${textColor}?text=F${i}`,
-                    alt: `Featured Wallpaper ${i}`,
-                    title: `Wallpaper ${i}`,
-                    description: i % 2 === 0 ? "Dynamic shapes and colors." : "Explore the depths of space.",
-                    labels: labels // labels මෙහිදී එකතු කරන්න
-                });
+                const { data, error } = await query;
+
+                if (error) {
+                    console.error('Error fetching wallpapers:', error.message);
+                    showModal('Error', 'Failed to load wallpapers. Please add data to your Supabase "wallpapers" table.');
+                    return [];
+                }
+                return data;
             }
 
-            const wallpapersPerPage = 24;
-            let currentPageIndex = 0; // වත්මන් පිටුවේ index (පළමු පිටුව සඳහා 0, දෙවන පිටුව සඳහා 1, ආදිය)
-            let currentFilterCategory = null; // පෙරහන් කිරීමට කාණ්ඩය ගබඩා කරයි
 
             // වත්මන් පිටුව සඳහා wallpapers render කිරීමේ ශ්‍රිතය
-            function renderWallpapers() {
-                featuredWallpapersContainer.innerHTML = ''; // පවතින wallpapers ඉවත් කරන්න
+            async function renderWallpapers(append = false) {
+                if (!append) {
+                    featuredWallpapersContainer.innerHTML = ''; // පවතින wallpapers ඉවත් කරන්න
+                    currentPageOffset = 0; // නව පෙරහනක් හෝ ආරම්භක load කිරීමක් නම් offset reset කරන්න
+                }
 
-                let filteredWallpapers = allWallpapersData;
+                // පෙරහන් කළ wallpapers ලබා ගැනීම
+                const wallpapers = await fetchWallpapers(currentPageOffset, wallpapersPerPage, currentFilterCategory); // await එකතු කරන ලදි
 
-                // කාණ්ඩ පෙරහනක් තෝරාගෙන තිබේ නම් එය යොදන්න
-                if (currentFilterCategory) {
-                    filteredWallpapers = allWallpapersData.filter(wallpaper =>
-                        wallpaper.labels.includes(currentFilterCategory)
-                    );
-                    // featured section එකේ මාතෘකාව යාවත්කාලීන කරන්න
-                    if (featuredWallpapersTitle) {
-                        featuredWallpapersTitle.textContent = `Wallpapers in "${currentFilterCategory.charAt(0).toUpperCase() + currentFilterCategory.slice(1)}" Category`;
-                    }
-                    loadMoreButton.textContent = `Load More ${currentFilterCategory.charAt(0).toUpperCase() + currentFilterCategory.slice(1)} Wallpapers`;
+                if (wallpapers.length < wallpapersPerPage) {
+                    hasMoreWallpapers = false; // තවත් wallpapers නොමැති බව සලකුණු කරන්න
+                    loadMoreButton.style.display = 'none'; // Load More බොත්තම සඟවන්න
                 } else {
-                    if (featuredWallpapersTitle) {
-                        featuredWallpapersTitle.textContent = "Featured Wallpapers";
-                    }
-                    loadMoreButton.textContent = "Load More Wallpapers";
+                    hasMoreWallpapers = true;
+                    loadMoreButton.style.display = 'block'; // Load More බොත්තම පෙන්වන්න
                 }
 
-
-                const startIndex = currentPageIndex * wallpapersPerPage;
-                const endIndex = startIndex + wallpapersPerPage;
-
-                const wallpapersToDisplay = [];
-                // පෙරහන් කළ wallpapers හරහා loop කරන්න, pagination සහ looping හැසිරවීම
-                for (let i = startIndex; i < endIndex; i++) {
-                    // පෙරහන් කළ array දිග ඉක්මවා ගියහොත් නැවත ආරම්භයට loop කිරීමට modulo භාවිතා කරන්න
-                    wallpapersToDisplay.push(filteredWallpapers[i % filteredWallpapers.length]);
-                }
-
-                if (wallpapersToDisplay.length === 0 && currentFilterCategory) {
-                    featuredWallpapersContainer.innerHTML = '<p class="text-center text-gray-400 text-lg col-span-full">No wallpapers found for this category.</p>';
-                    loadMoreButton.style.display = 'none'; // ප්‍රතිඵල නොමැති නම් load more සඟවන්න
+                if (wallpapers.length === 0 && !append) {
+                    featuredWallpapersContainer.innerHTML = '<p class="text-center text-gray-400 text-lg col-span-full">No wallpapers found for this category. Please add data to your Supabase "wallpapers" table.</p>';
                     return;
-                } else if (wallpapersToDisplay.length === 0) {
-                     featuredWallpapersContainer.innerHTML = '<p class="text-center text-gray-400 text-lg col-span-full">No wallpapers to display.</p>';
-                     loadMoreButton.style.display = 'none';
-                     return;
-                } else {
-                    loadMoreButton.style.display = 'block'; // ප්‍රතිඵල තිබේ නම් load more දෘශ්‍යමාන බවට සහතික වන්න
                 }
 
+                // featured section එකේ මාතෘකාව යාවත්කාලීන කරන්න
+                if (currentFilterCategory) {
+                    featuredWallpapersTitle.textContent = `Wallpapers in "${currentFilterCategory.charAt(0).toUpperCase() + currentFilterCategory.slice(1)}" Category`;
+                } else {
+                    featuredWallpapersTitle.textContent = "Featured Wallpapers";
+                }
+                loadMoreButton.textContent = `Load More ${currentFilterCategory ? currentFilterCategory.charAt(0).toUpperCase() + currentFilterCategory.slice(1) + ' ' : ''}Wallpapers`;
 
-                wallpapersToDisplay.forEach(wallpaper => {
+
+                wallpapers.forEach(wallpaper => {
                     const wallpaperCardHtml = `
-                        <div class="bg-black bg-opacity-50 backdrop-blur-sm rounded-xl p-4 shadow-2xl border border-gray-700 transform hover:scale-105 transition duration-300 group cursor-pointer"
+                        <div class="bg-black bg-opacity-50 backdrop-blur-sm rounded-3xl p-2 shadow-2xl border border-gray-700 transform hover:scale-105 transition duration-300 group cursor-pointer"
                              data-wallpaper-id="${wallpaper.id}"
                              data-wallpaper-title="${wallpaper.title}"
                              data-wallpaper-description="${wallpaper.description}"
-                             data-wallpaper-src="${wallpaper.src}"
-                             data-wallpaper-labels="${wallpaper.labels.join(',')}" >
-                            <img src="https://placehold.co/300x533/000000/FFFFFF?text=Loading..." alt="${wallpaper.alt}" class="w-full h-80 object-cover rounded-lg mb-4 shadow-md group-hover:shadow-xl transition duration-300" onerror="this.onerror=null;this.src='${wallpaper.src}';">
-                            <button class="mt-4 w-full py-2 bg-gradient-to-r from-purple-500 to-indigo-600 text-white font-medium rounded-full shadow-md hover:shadow-lg transform hover:scale-105 transition duration-300">Download</button>
+                             data-wallpaper-src="${wallpaper.image_url}"
+                             data-wallpaper-labels="${(wallpaper.labels || []).join(',')}" >
+                            <img src="${wallpaper.image_url}" alt="${wallpaper.title}" class="w-full h-80 object-cover rounded-lg mb-4 shadow-md group-hover:shadow-xl transition duration-300" onerror="this.onerror=null;this.src='https://placehold.co/300x533/000000/FFFFFF?text=Image+Error';">
+                            <!-- Download button removed as per user request -->
                         </div>
                     `;
                     featuredWallpapersContainer.insertAdjacentHTML('beforeend', wallpaperCardHtml);
@@ -575,7 +521,7 @@
                 });
 
                 // නව අන්තර්ගතය load කිරීමෙන් පසු featured section එකේ ඉහළට scroll කරන්න
-                if (currentFilterCategory || currentPageIndex > 0) {
+                if (!append) { // නව පෙරහනක් හෝ ආරම්භක load කිරීමක් නම් පමණක් scroll කරන්න
                     window.scrollTo({ top: featuredWallpapersContainer.offsetTop - 100, behavior: 'smooth' });
                 }
             }
@@ -589,83 +535,95 @@
             };
 
 
-            // category බොත්තම් සඳහා event listeners
+            // category බොත්තම් සඳහා event listeners (These are for the old category buttons, will be replaced by category cards)
             document.querySelectorAll('.category-button').forEach(button => {
                 button.addEventListener('click', (event) => {
                     const category = event.target.dataset.category;
                     currentFilterCategory = category;
-                    currentPageIndex = 0; // නව පෙරහන සඳහා pagination reset කරන්න
-                    renderWallpapers();
+                    currentPageOffset = 0; // නව පෙරහන සඳහා pagination reset කරන්න
+                    renderWallpapers(); // නව පෙරහන සමඟ wallpapers render කරන්න
                 });
             });
 
-            // Initial render call moved here, after all elements are defined and Supabase is ready
+            // Initial render call moved here, after all elements are defined and data is ready
             const urlCategory = getUrlParameter('category');
             if (urlCategory) {
                 currentFilterCategory = urlCategory;
             }
-            renderWallpapers(); // ආරම්භක පෙරහන හෝ පෙරහනක් නොමැතිව wallpapers render කරන්න
-
+            // renderWallpapers() will be called after categories are loaded
 
             // "Load More Wallpapers" බොත්තම සඳහා event listener
             loadMoreButton.addEventListener('click', () => {
-                let totalWallpapersToConsider = currentFilterCategory ? allWallpapersData.filter(wallpaper => wallpaper.labels.includes(currentFilterCategory)).length : allWallpapersData.length;
-                let totalPages = Math.ceil(totalWallpapersToConsider / wallpapersPerPage);
-
-                currentPageIndex = (currentPageIndex + 1) % totalPages;
-
-                if (totalPages === 0) currentPageIndex = 0;
-
-                renderWallpapers();
+                if (hasMoreWallpapers) {
+                    currentPageOffset += wallpapersPerPage;
+                    renderWallpapers(true); // පවතින ඒවාට අලුතින් එකතු කරන්න
+                }
             });
 
             // --- Supabase Click Tracking ---
             async function trackWallpaperClick(wallpaperId) {
                 try {
+                    // Supabase හි 'wallpapers' table එකෙන් වත්මන් clicks ගණන ලබා ගන්න
+                    const { data: currentData, error: fetchError } = await supabase
+                        .from('wallpapers')
+                        .select('clicks')
+                        .eq('id', wallpaperId) // Supabase ID එක කෙලින්ම භාවිතා කරන්න
+                        .single();
+
+                    if (fetchError && fetchError.code !== 'PGRST116') { // PGRST116 යනු "No rows found"
+                        console.error(`Error fetching current clicks for ${wallpaperId}:`, fetchError.message);
+                        return;
+                    }
+
+                    const currentClicks = currentData ? currentData.clicks : 0;
+                    const newClicks = currentClicks + 1;
+
+                    // දත්ත ගබඩාවේ 'wallpapers' table එකේ අනුරූප වෝල්පේපරයේ click count එක වැඩි කරන්න
                     const { data, error } = await supabase
-                        .from('clicks') // Supabase හි ඔබේ table නාමය (උදා: 'clicks')
-                        .insert([
-                            { wallpaper_id: wallpaperId }
-                        ]);
+                        .from('wallpapers')
+                        .update({ clicks: newClicks })
+                        .eq('id', wallpaperId); // Supabase ID එක කෙලින්ම භාවිතා කරන්න
 
                     if (error) {
-                        console.error(`Error tracking click for ${wallpaperId}:`, error.message);
+                        console.error(`Error tracking click for Supabase ID ${wallpaperId}:`, error.message);
                     } else {
-                        console.log(`Click tracked for wallpaper ${wallpaperId}:`, data);
+                        console.log(`Click tracked for wallpaper ${wallpaperId}: New clicks = ${newClicks}`);
                     }
                 } catch (error) {
                     console.error("Network error tracking click:", error);
                 }
             }
 
-            // --- Trending/Popular දත්ත සඳහා Supabase Edge Function ---
-            // මෙම logic එක හසුරුවන 'get-trending-wallpapers' නම් Edge Function එකක් ඔබේ Supabase project එකේ deploy කර ඇති බවට සහතික වන්න.
-            async function getAggregatedClicks(days) {
-                try {
-                    const response = await fetch(`${EDGE_FUNCTION_URL}?period=${days}`, {
-                        method: 'GET',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
-                        mode: 'cors' // CORS ගැටලු නිරාකරණය කිරීමට මෙය එකතු කරන ලදී
-                    });
+            // --- Trending/Popular දත්ත සඳහා Supabase ---
+            // Now fetches image_url, description, and labels as well
+            async function getAggregatedClicks(limit, timeframeInDays = null) {
+                let query = supabase
+                    .from('wallpapers')
+                    .select('id, title, clicks, image_url, description, labels') // Added image_url, description, labels
+                    .order('clicks', { ascending: false }) // clicks අනුව descending order කරන්න
+                    .limit(limit); // Set the limit for the number of wallpapers
 
-                    if (response.ok) {
-                        const data = await response.json();
-                        const aggregated = data.map(item => {
-                            const wallpaper = allWallpapersData.find(w => w.id === item.wallpaperId);
-                            return wallpaper ? { ...wallpaper, clicks: item.clicks } : null;
-                        }).filter(Boolean);
+                if (timeframeInDays) {
+                    const date = new Date();
+                    date.setDate(date.getDate() - timeframeInDays);
+                    query = query.gte('created_at', date.toISOString()); // Filter by created_at for timeframe
+                }
 
-                        return aggregated;
-                    } else {
-                        console.error(`Error fetching aggregated clicks for ${days} days:`, response.status, response.statusText);
-                        return [];
-                    }
-                } catch (error) {
-                    console.error("Network error fetching aggregated clicks:", error);
+                const { data, error } = await query;
+
+                if (error) {
+                    console.error(`Error fetching aggregated clicks with timeframe ${timeframeInDays} days:`, error.message);
                     return [];
                 }
+
+                return data.map(item => ({
+                    wallpaperId: item.id,
+                    title: item.title,
+                    clicks: item.clicks,
+                    image_url: item.image_url,
+                    description: item.description,
+                    labels: item.labels // labels array එකක් ලෙසම ලබා ගනී
+                }));
             }
 
             // --- Modal Functions ---
@@ -696,49 +654,355 @@
             trendingButton.addEventListener('click', async () => {
                 showModal('Fetching Trending Wallpapers', 'Please wait while we analyze the latest trends...');
                 try {
-                    const trendingData = await getAggregatedClicks(7); // පසුගිය දින 7
-                    let contentHtml = '<p class="font-bold mb-2">Top Trending Wallpapers (Last 7 Days):</p>';
+                    const trendingData = await getAggregatedClicks(30, 7); // Get up to 30 wallpapers from last 7 days
+                    let contentHtml = ''; // Initialize empty to build content
+
                     if (trendingData.length > 0) {
-                        trendingData.slice(0, 5).forEach(item => { // Top 5 පෙන්වන්න
-                            contentHtml += `<p>${item.title}: ${item.clicks} Clicks</p>`;
+                        contentHtml += '<p class="text-xl font-bold mb-4 text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-400">Top Trending Wallpapers (Last 7 Days):</p>';
+                        // Use the same grid structure as featured wallpapers
+                        contentHtml += '<div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-6">';
+                        trendingData.forEach(item => {
+                            // Create a clickable card for each wallpaper, matching featured wallpaper card structure
+                            const wallpaperLabels = (item.labels || []).join(',');
+                            const detailPageUrl = `detail.html?id=${item.wallpaperId}&title=${encodeURIComponent(item.title)}&description=${encodeURIComponent(item.description || '')}&src=${encodeURIComponent(item.image_url)}&labels=${encodeURIComponent(wallpaperLabels)}`;
+
+                            contentHtml += `
+                                <div class="bg-black bg-opacity-50 backdrop-blur-sm rounded-3xl p-2 shadow-2xl border border-gray-700 transform hover:scale-105 transition duration-300 group cursor-pointer"
+                                     data-wallpaper-id="${item.wallpaperId}"
+                                     data-wallpaper-title="${item.title}"
+                                     data-wallpaper-description="${item.description || ''}"
+                                     data-wallpaper-src="${item.image_url}"
+                                     data-wallpaper-labels="${wallpaperLabels}">
+                                    <img src="${item.image_url}" alt="${item.title}" class="w-full h-80 object-cover rounded-lg mb-4 shadow-md group-hover:shadow-xl transition duration-300" onerror="this.onerror=null;this.src='https://placehold.co/300x533/000000/FFFFFF?text=Image+Error';">
+                                    </div>
+                            `;
                         });
+                        contentHtml += '</div>'; // Close grid
                     } else {
-                        contentHtml += '<p>No trending wallpapers found for the last 7 days.</p>';
+                        contentHtml += '<p class="text-gray-400">No trending wallpapers found for the last 7 days. Please add some data to your Supabase "wallpapers" table with various click counts and recent creation dates.</p>';
                     }
 
                     modalTitle.textContent = 'Trending Wallpapers Analysis';
                     modalMessage.textContent = 'Here are the current trending wallpapers based on recent activity:';
                     modalContent.innerHTML = contentHtml;
-                } catch (error) {
-                    modalTitle.textContent = 'Error';
-                    modalMessage.textContent = 'Failed to fetch trending data. Please try again later.';
-                    modalContent.innerHTML = `<p class="text-red-400">Error details: ${error.message}</p>`;
-                    console.error('Error fetching trending data:', error);
-                }
-            });
 
-            popularButton.addEventListener('click', async () => {
-                showModal('Fetching Popular Wallpapers', 'Please wait while we gather popular choices...');
-                try {
-                    const popularData = await getAggregatedClicks(30); // පසුගිය දින 30
-                    let contentHtml = '<p class="font-bold mb-2">Most Popular Wallpapers (Last 30 Days):</p>';
-                    if (popularData.length > 0) {
-                        popularData.slice(0, 5).forEach(item => { // Top 5 පෙන්වන්න
-                            contentHtml += `<p>${item.title}: ${item.clicks} Clicks</p>`;
+                    // Add click listeners to the newly rendered modal content images
+                    document.querySelectorAll('#modalContent > div > div').forEach(card => {
+                        card.addEventListener('click', (event) => {
+                            const wallpaperId = card.dataset.wallpaperId;
+                            const wallpaperTitle = card.dataset.wallpaperTitle;
+                            const wallpaperDescription = card.dataset.wallpaperDescription;
+                            const wallpaperSrc = card.dataset.wallpaperSrc;
+                            const wallpaperLabels = card.dataset.wallpaperLabels;
+
+                            trackWallpaperClick(wallpaperId); // Track click
+                            const detailPageUrl = `detail.html?id=${wallpaperId}&title=${encodeURIComponent(wallpaperTitle)}&description=${encodeURIComponent(wallpaperDescription)}&src=${encodeURIComponent(wallpaperSrc)}&labels=${encodeURIComponent(wallpaperLabels)}`;
+                            window.open(detailPageUrl, '_blank'); // Open in new tab
+                            hideModal(); // Close modal after opening detail page
                         });
-                    } else {
-                        contentHtml += '<p>No popular wallpapers found for the last 30 days.</p>';
-                    }
+                    });
 
-                    modalTitle.textContent = 'Popular Wallpapers Analysis';
-                    modalMessage.textContent = 'Here are the most popular wallpapers based on overall engagement:';
-                    modalContent.innerHTML = contentHtml;
                 } catch (error) {
                     modalTitle.textContent = 'Error';
                     modalMessage.textContent = 'Failed to fetch popular data. Please try again later.';
                     modalContent.innerHTML = `<p class="text-red-400">Error details: ${error.message}</p>`;
                     console.error('Error fetching popular data:', error);
                 }
+            });
+
+            popularButton.addEventListener('click', async () => {
+                showModal('Fetching Popular Wallpapers', 'Please wait while we gather popular choices...');
+                try {
+                    const popularData = await getAggregatedClicks(30, 30); // Get up to 30 wallpapers from last 30 days
+                    let contentHtml = ''; // Initialize empty to build content
+
+                    if (popularData.length > 0) {
+                        contentHtml += '<p class="text-xl font-bold mb-4 text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-400">Most Popular Wallpapers (Last 30 Days):</p>';
+                        // Use the same grid structure as featured wallpapers
+                        contentHtml += '<div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-6">';
+                        popularData.forEach(item => {
+                            // Create a clickable card for each wallpaper, matching featured wallpaper card structure
+                            const wallpaperLabels = (item.labels || []).join(',');
+                            const detailPageUrl = `detail.html?id=${item.wallpaperId}&title=${encodeURIComponent(item.title)}&description=${encodeURIComponent(item.description || '')}&src=${encodeURIComponent(item.image_url)}&labels=${encodeURIComponent(wallpaperLabels)}`;
+
+                            contentHtml += `
+                                <div class="bg-black bg-opacity-50 backdrop-blur-sm rounded-3xl p-2 shadow-2xl border border-gray-700 transform hover:scale-105 transition duration-300 group cursor-pointer"
+                                     data-wallpaper-id="${item.wallpaperId}"
+                                     data-wallpaper-title="${item.title}"
+                                     data-wallpaper-description="${item.description || ''}"
+                                     data-wallpaper-src="${item.image_url}"
+                                     data-wallpaper-labels="${wallpaperLabels}">
+                                    <img src="${item.image_url}" alt="${item.title}" class="w-full h-80 object-cover rounded-lg mb-4 shadow-md group-hover:shadow-xl transition duration-300" onerror="this.onerror=null;this.src='https://placehold.co/300x533/000000/FFFFFF?text=Image+Error';">
+                                    </div>
+                            `;
+                        });
+                        contentHtml += '</div>'; // Close grid
+                    } else {
+                        contentHtml += '<p class="text-gray-400">No popular wallpapers found for the last 30 days. Please add some data to your Supabase "wallpapers" table with various click counts and recent creation dates.</p>';
+                    }
+
+                    modalTitle.textContent = 'Popular Wallpapers Analysis';
+                    modalMessage.textContent = 'Here are the most popular wallpapers based on overall engagement:';
+                    modalContent.innerHTML = contentHtml;
+
+                    // Add click listeners to the newly rendered modal content images
+                    document.querySelectorAll('#modalContent > div > div').forEach(card => {
+                        card.addEventListener('click', (event) => {
+                            const wallpaperId = card.dataset.wallpaperId;
+                            const wallpaperTitle = card.dataset.wallpaperTitle;
+                            const wallpaperDescription = card.dataset.wallpaperDescription;
+                            const wallpaperSrc = card.dataset.wallpaperSrc;
+                            const wallpaperLabels = card.dataset.wallpaperLabels;
+
+                            trackWallpaperClick(wallpaperId); // Track click
+                            const detailPageUrl = `detail.html?id=${wallpaperId}&title=${encodeURIComponent(wallpaperTitle)}&description=${encodeURIComponent(wallpaperDescription)}&src=${encodeURIComponent(wallpaperSrc)}&labels=${encodeURIComponent(wallpaperLabels)}`;
+                            window.open(detailPageUrl, '_blank'); // Open in new tab
+                            hideModal(); // Close modal after opening detail page
+                        });
+                    });
+
+                } catch (error) {
+                    modalTitle.textContent = 'Error';
+                    modalMessage.textContent = 'Failed to fetch popular data. Please try again later.';
+                    modalContent.innerHTML = `<p class="text-red-400">Error details: ${error.message}</p>`;
+                    console.error('Error fetching popular data:', error);
+                }
+            });
+
+            // --- Supabase වෙතින් කාණ්ඩ ලබා ගැනීමේ ශ්‍රිතය ---
+            async function fetchCategoriesFromSupabase() {
+                try {
+                    // Fetch all wallpapers to get their labels
+                    const { data, error } = await supabase
+                        .from('wallpapers')
+                        .select('labels, image_url'); // Select labels and image_url
+
+                    if (error) {
+                        console.error('Error fetching categories:', error.message);
+                        return [];
+                    }
+
+                    const allLabels = new Set();
+                    const categoryImages = {}; // To store a representative image for each category
+
+                    data.forEach(wallpaper => {
+                        if (wallpaper.labels && Array.isArray(wallpaper.labels)) {
+                            wallpaper.labels.forEach(label => {
+                                // Only include "Green" and "Anime" categories
+                                if (label === 'Green' || label === 'Anime') {
+                                    allLabels.add(label);
+                                    if (!categoryImages[label]) {
+                                        categoryImages[label] = wallpaper.image_url; // Store first image found for category
+                                    }
+                                }
+                            });
+                        }
+                    });
+
+                    // Convert set to array and sort if needed
+                    const filteredCategories = Array.from(allLabels).sort();
+
+                    return filteredCategories.map(label => ({
+                        name: label,
+                        imageUrl: categoryImages[label] || `https://placehold.co/400x225/000000/FFFFFF?text=${label}` // Fallback placeholder
+                    }));
+
+                } catch (err) {
+                    console.error('Network error fetching categories:', err);
+                    return [];
+                }
+            }
+
+            // --- කාණ්ඩ ගතිකව load කර carousel initialize කිරීමේ ශ්‍රිතය ---
+            async function loadCategoriesAndInitializeCarousel() {
+                const categories = await fetchCategoriesFromSupabase();
+                categoriesCarousel.innerHTML = ''; // Clear existing content
+
+                if (categories.length === 0) {
+                    categoriesCarousel.innerHTML = '<p class="text-center text-gray-400 text-lg col-span-full">No categories found or filtered for Green/Anime.</p>';
+                    return;
+                }
+
+                categories.forEach(category => {
+                    const categoryCardHtml = `
+                        <div class="flex-shrink-0 w-full sm:w-1/2 lg:w-1/3 bg-black bg-opacity-50 backdrop-blur-sm rounded-3xl p-2 shadow-2xl border border-gray-700 transform hover:scale-105 transition duration-300 cursor-pointer category-card"
+                             data-category-name="${category.name}">
+                            <h2 class="text-2xl font-bold mb-4 text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-400">${category.name}</h2>
+                            <div class="flex justify-center items-center">
+                                <img src="${category.imageUrl}" alt="${category.name} Wallpaper" class="w-full h-auto rounded-lg shadow-md hover:shadow-xl transition duration-300 object-cover" onerror="this.onerror=null;this.src='https://placehold.co/400x225/000000/FFFFFF?text=${category.name}';">
+                            </div>
+                        </div>
+                    `;
+                    categoriesCarousel.insertAdjacentHTML('beforeend', categoryCardHtml);
+                });
+
+                // Add click listeners to the dynamically created category cards
+                document.querySelectorAll('.category-card').forEach(card => {
+                    card.addEventListener('click', (event) => {
+                        const category = card.dataset.categoryName;
+                        currentFilterCategory = category;
+                        currentPageOffset = 0; // Reset pagination for new filter
+                        renderWallpapers(); // Render wallpapers for the selected category
+                        // Update URL to reflect the selected category
+                        const newUrl = new URL(window.location.href);
+                        newUrl.searchParams.set('category', category);
+                        // Use window.location.href for full reload to bypass pushState security error
+                        window.location.href = newUrl.href;
+                    });
+                });
+
+                initializeCarousel(); // Re-initialize carousel after adding new cards
+            }
+
+            // --- Carousel Logic for Categories ---
+            function initializeCarousel() {
+                categoryCards = Array.from(categoriesCarousel.children); // Get all direct children as cards
+                if (categoryCards.length > 0) {
+                    updatePaginationDots();
+                    startAutoSwipe();
+                }
+            }
+
+            function updatePaginationDots() {
+                categoryPagination.innerHTML = '';
+                categoryCards.forEach((_, index) => {
+                    const dot = document.createElement('span');
+                    dot.classList.add('w-3', 'h-3', 'bg-gray-600', 'rounded-full', 'cursor-pointer', 'transition-colors', 'duration-300', 'mx-1'); // Added mx-1 for spacing
+                    if (index === currentIndex) {
+                        dot.classList.remove('bg-gray-600');
+                        dot.classList.add('bg-purple-500');
+                    }
+                    dot.addEventListener('click', () => {
+                        currentIndex = index;
+                        scrollToCurrentIndex();
+                        resetAutoSwipe();
+                    });
+                    categoryPagination.appendChild(dot);
+                });
+            }
+
+            function scrollToCurrentIndex() {
+                if (categoryCards.length > 0) {
+                    // Calculate the scroll position based on the first card's width and gap
+                    const firstCard = categoryCards[0];
+                    const cardWidth = firstCard.offsetWidth;
+                    // Get the computed gap from the parent flex container
+                    const style = window.getComputedStyle(categoriesCarousel);
+                    const gap = parseFloat(style.getPropertyValue('gap')) || 0;
+
+                    const scrollPosition = currentIndex * (cardWidth + gap);
+
+                    categoriesCarousel.scrollTo({
+                        left: scrollPosition,
+                        behavior: 'smooth'
+                    });
+                }
+            }
+
+            function nextSlide() {
+                currentIndex = (currentIndex + 1) % categoryCards.length;
+                scrollToCurrentIndex();
+                updatePaginationDots(); // Update dots after auto-swipe
+            }
+
+            function prevSlide() {
+                currentIndex = (currentIndex - 1 + categoryCards.length) % categoryCards.length;
+                scrollToCurrentIndex();
+                updatePaginationDots(); // Update dots after auto-swipe
+            }
+
+            function startAutoSwipe() {
+                carouselInterval = setInterval(nextSlide, autoSwipeDelay);
+            }
+
+            function resetAutoSwipe() {
+                clearInterval(carouselInterval);
+                startAutoSwipe();
+            }
+
+            // Event Listeners for manual navigation (arrows)
+            prevCategoryButton.addEventListener('click', () => {
+                prevSlide();
+                resetAutoSwipe();
+            });
+
+            nextCategoryButton.addEventListener('click', () => {
+                nextSlide();
+                resetAutoSwipe();
+            });
+
+            // Drag/Touch functionality
+            categoriesCarousel.addEventListener('mousedown', (e) => {
+                isDragging = true;
+                categoriesCarousel.classList.add('cursor-grabbing');
+                startX = e.pageX - categoriesCarousel.offsetLeft;
+                scrollLeft = categoriesCarousel.scrollLeft;
+                clearInterval(carouselInterval); // Pause auto-swipe on manual interaction
+            });
+
+            categoriesCarousel.addEventListener('mouseleave', () => {
+                isDragging = false;
+                categoriesCarousel.classList.remove('cursor-grabbing');
+            });
+
+            categoriesCarousel.addEventListener('mouseup', () => {
+                isDragging = false;
+                categoriesCarousel.classList.remove('cursor-grabbing');
+                // No snapping logic here, let natural scroll inertia take over
+                resetAutoSwipe(); // Resume auto-swipe after a short delay
+            });
+
+            categoriesCarousel.addEventListener('mousemove', (e) => {
+                if (!isDragging) return;
+                e.preventDefault();
+                const x = e.pageX - categoriesCarousel.offsetLeft;
+                const walk = (x - startX) * 1.5; // Multiplier for faster scroll
+                categoriesCarousel.scrollLeft = scrollLeft - walk;
+            });
+
+            // Touch events for mobile
+            categoriesCarousel.addEventListener('touchstart', (e) => {
+                isDragging = true;
+                startX = e.touches[0].pageX - categoriesCarousel.offsetLeft;
+                scrollLeft = categoriesCarousel.scrollLeft;
+                clearInterval(carouselInterval);
+            });
+
+            categoriesCarousel.addEventListener('touchend', () => {
+                isDragging = false;
+                // No snapping logic here, let natural scroll inertia take over
+                resetAutoSwipe();
+            });
+
+            categoriesCarousel.addEventListener('touchmove', (e) => {
+                if (!isDragging) return;
+                e.preventDefault();
+                const x = e.touches[0].pageX - categoriesCarousel.offsetLeft;
+                const walk = (x - startX) * 1.5;
+                categoriesCarousel.scrollLeft = scrollLeft - walk;
+            });
+
+            // Listen for scroll end to update pagination dots accurately after manual scroll
+            let scrollTimeout;
+            categoriesCarousel.addEventListener('scroll', () => {
+                clearTimeout(scrollTimeout);
+                scrollTimeout = setTimeout(() => {
+                    if (!isDragging) { // Only update if not actively dragging
+                        const firstCard = categoryCards[0];
+                        if (firstCard) {
+                            const cardWidth = firstCard.offsetWidth;
+                            const style = window.getComputedStyle(categoriesCarousel);
+                            const gap = parseFloat(style.getPropertyValue('gap')) || 0;
+                            currentIndex = Math.round(categoriesCarousel.scrollLeft / (cardWidth + gap));
+                            updatePaginationDots();
+                        }
+                    }
+                }, 150); // Debounce time
+            });
+
+            // Initial setup for categories and wallpapers
+            loadCategoriesAndInitializeCarousel().then(() => {
+                renderWallpapers(); // Call initial render after categories are loaded
             });
         }; // End of window.onload
     </script>
