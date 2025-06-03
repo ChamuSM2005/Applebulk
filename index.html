@@ -532,7 +532,8 @@
 
                         const wallpaperId = card.dataset.wallpaperId;
                         // detail.html වෙත යැවීමට ids parameter එක භාවිතා කරන්න
-                        const detailPageUrl = `detail.html?ids=${wallpaperId}`;
+                        // Changed to use window.location.origin for absolute URL
+                        const detailPageUrl = `${window.location.origin}/detail.html?ids=${wallpaperId}`;
                         window.location.href = detailPageUrl; // Load in current tab
                     });
                 });
@@ -686,7 +687,8 @@
                             // Create a clickable card for each wallpaper, matching featured wallpaper card structure
                             const wallpaperLabels = (item.labels || []).join(',');
                             // Pass 'ids' parameter to detail.html
-                            const detailPageUrl = `detail.html?ids=${item.wallpaperId}`;
+                            // Changed to use window.location.origin for absolute URL
+                            const detailPageUrl = `${window.location.origin}/detail.html?ids=${item.wallpaperId}`;
 
                             contentHtml += `
                                 <div class="bg-black bg-opacity-50 backdrop-blur-sm rounded-3xl p-2 shadow-2xl border border-gray-700 transform hover:scale-105 transition duration-300 group cursor-pointer"
@@ -714,7 +716,8 @@
                             const wallpaperId = card.dataset.wallpaperId;
                             trackWallpaperClick(wallpaperId); // Track click
                             // Pass 'ids' parameter to detail.html
-                            const detailPageUrl = `detail.html?ids=${wallpaperId}`;
+                            // Changed to use window.location.origin for absolute URL
+                            const detailPageUrl = `${window.location.origin}/detail.html?ids=${wallpaperId}`;
                             window.location.href = detailPageUrl; // Load in current tab
                         });
                     });
@@ -741,7 +744,8 @@
                             // Create a clickable card for each wallpaper, matching featured wallpaper card structure
                             const wallpaperLabels = (item.labels || []).join(',');
                             // Pass 'ids' parameter to detail.html
-                            const detailPageUrl = `detail.html?ids=${item.wallpaperId}`;
+                            // Changed to use window.location.origin for absolute URL
+                            const detailPageUrl = `${window.location.origin}/detail.html?ids=${item.wallpaperId}`;
 
                             contentHtml += `
                                 <div class="bg-black bg-opacity-50 backdrop-blur-sm rounded-3xl p-2 shadow-2xl border border-gray-700 transform hover:scale-105 transition duration-300 group cursor-pointer"
@@ -769,7 +773,8 @@
                             const wallpaperId = card.dataset.wallpaperId;
                             trackWallpaperClick(wallpaperId); // Track click
                             // Pass 'ids' parameter to detail.html
-                            const detailPageUrl = `detail.html?ids=${wallpaperId}`;
+                            // Changed to use window.location.origin for absolute URL
+                            const detailPageUrl = `${window.location.origin}/detail.html?ids=${wallpaperId}`;
                             window.location.href = detailPageUrl; // Load in current tab
                         });
                     });
