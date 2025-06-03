@@ -7,7 +7,7 @@
     <!-- Tailwind CSS CDN for modern styling and responsiveness -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Google Fonts - Inter for general text, Exo for the background context if desired -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
     <!-- Font Awesome for icons (still needed for TikTok and Instagram) -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <!-- Supabase SDK for data fetching -->
@@ -265,10 +265,11 @@
                 <div class="relative">
                     <input
                         type="search"
+                        id="searchInput"
                         placeholder="Search wallpapers..."
                         class="pl-4 pr-10 py-2 rounded-full bg-gray-800 bg-opacity-70 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition duration-300 w-full sm:w-auto min-w-[180px]"
                     >
-                    <button class="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-white transition duration-300">
+                    <button id="searchButton" class="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-white transition duration-300">
                         <i class="fas fa-search"></i>
                     </button>
                 </div>
@@ -289,7 +290,7 @@
         </header>
 
         <main class="flex-grow container mx-auto px-4 py-8 md:py-12">
-            <section class="flex flex-row flex-wrap justify-center items-center gap-4 mb-12">
+            <section class="flex flex-row flex-wrap justify-center items-center gap-4 mb-4">
                 <button id="trendingButton" class="flex items-center space-x-2 px-4 py-2 bg-gradient-to-r from-purple-600 to-indigo-700 text-white font-semibold text-base rounded-full shadow-lg hover:shadow-xl transform hover:scale-105 transition duration-300 ease-in-out group">
                     <i class="fas fa-arrow-trend-up icon-trending group-hover:text-yellow-300"></i>
                     <span>Trending</span>
@@ -301,7 +302,7 @@
             </section>
 
             <!-- Adsterra Banner (320x50) -->
-            <section class="flex justify-center my-8">
+            <section class="flex justify-center my-4">
                 <div class="w-[320px] h-[50px] bg-gray-800 rounded-lg overflow-hidden flex items-center justify-center text-gray-400 text-sm">
                     <!-- Adsterra Ad Code -->
                     <script type="text/javascript">
@@ -319,7 +320,7 @@
             <!-- End Adsterra Banner -->
 
             <section class="mb-12">
-                <h2 class="text-4xl font-bold text-center mb-8 text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-400">Wallpaper Categories</h2>
+                <h2 class="text-3xl font-bold text-center mb-8 text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-400">Wallpaper Categories</h2>
                 <div class="relative w-full max-w-6xl mx-auto">
                     <div id="categories-carousel" class="flex overflow-x-scroll scroll-smooth pb-4 no-scrollbar gap-4">
                         <!-- Categories will be dynamically loaded here -->
@@ -339,7 +340,7 @@
             </section>
 
             <section class="mb-12">
-                <h2 id="featuredWallpapersTitle" class="text-4xl font-bold text-center mb-8 text-transparent bg-clip-text bg-gradient-to-r from-green-300 to-blue-400">Featured Wallpapers</h2>
+                <h2 id="featuredWallpapersTitle" class="text-3xl font-bold text-center mb-8 text-transparent bg-clip-text bg-gradient-to-r from-green-300 to-blue-400">Featured Wallpapers</h2>
                 <div id="featuredWallpapersContainer" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-6">
                     </div>
 
@@ -411,6 +412,11 @@
             let scrollLeft;
             let currentIndex = 0;
 
+            // Search elements
+            const searchInput = document.getElementById('searchInput');
+            const searchButton = document.getElementById('searchButton');
+            let currentSearchTerm = null; // To store the current search term
+
             // Test Supabase connection (optional, for debugging)
             async function testSupabase() {
                 try {
@@ -434,7 +440,7 @@
             let hasMoreWallpapers = true; // තවත් wallpapers තිබේදැයි නිරීක්ෂණය කිරීමට
 
             // Supabase වෙතින් wallpapers ලබා ගැනීමේ ශ්‍රිතය
-            async function fetchWallpapers(offset, limit, category = null) {
+            async function fetchWallpapers(offset, limit, category = null, searchTerm = null) {
                 let query = supabase
                     .from('wallpapers')
                     .select('*'); // සියලුම තීරු තෝරන්න
@@ -442,6 +448,11 @@
                 if (category) {
                     // Use .contains() for JSONB array filtering
                     query = query.contains('labels', [category]);
+                }
+
+                if (searchTerm) {
+                    // Apply search filter using .or() for title or description
+                    query = query.or(`title.ilike.%${searchTerm}%,description.ilike.%${searchTerm}%`);
                 }
 
                 // created_at අනුව නවතම ඒවා මුලින්ම පෙන්වීමට
@@ -469,7 +480,7 @@
                 }
 
                 // පෙරහන් කළ wallpapers ලබා ගැනීම
-                const wallpapers = await fetchWallpapers(currentPageOffset, wallpapersPerPage, currentFilterCategory); // await එකතු කරන ලදි
+                const wallpapers = await fetchWallpapers(currentPageOffset, wallpapersPerPage, currentFilterCategory, currentSearchTerm); // await එකතු කරන ලදි
 
                 if (wallpapers.length < wallpapersPerPage) {
                     hasMoreWallpapers = false; // තවත් wallpapers නොමැති බව සලකුණු කරන්න
@@ -480,14 +491,17 @@
                 }
 
                 if (wallpapers.length === 0 && !append) {
-                    featuredWallpapersContainer.innerHTML = '<p class="text-center text-gray-400 text-lg col-span-full">No wallpapers found for this category. Please add data to your Supabase "wallpapers" table.</p>';
+                    featuredWallpapersContainer.innerHTML = '<p class="text-center text-gray-400 text-lg col-span-full">No wallpapers found for this category or search term. Please add data to your Supabase "wallpapers" table.</p>';
                     return;
                 }
 
                 // featured section එකේ මාතෘකාව යාවත්කාලීන කරන්න
                 if (currentFilterCategory) {
                     featuredWallpapersTitle.textContent = `Wallpapers in "${currentFilterCategory.charAt(0).toUpperCase() + currentFilterCategory.slice(1)}" Category`;
-                } else {
+                } else if (currentSearchTerm) {
+                    featuredWallpapersTitle.textContent = `Search Results for "${currentSearchTerm}"`;
+                }
+                else {
                     featuredWallpapersTitle.textContent = "Featured Wallpapers";
                 }
                 loadMoreButton.textContent = `Load More ${currentFilterCategory ? currentFilterCategory.charAt(0).toUpperCase() + currentFilterCategory.slice(1) + ' ' : ''}Wallpapers`;
@@ -527,14 +541,15 @@
 
                         // labels detail.html වෙත යැවීම
                         const detailPageUrl = `detail.html?id=${wallpaperId}&title=${encodeURIComponent(wallpaperTitle)}&description=${encodeURIComponent(wallpaperDescription)}&src=${encodeURIComponent(wallpaperSrc)}&labels=${encodeURIComponent(wallpaperLabels)}`;
-                        window.open(detailPageUrl, '_blank');
+                        window.location.href = detailPageUrl; // Load in current tab
                     });
                 });
 
                 // නව අන්තර්ගතය load කිරීමෙන් පසු featured section එකේ ඉහළට scroll කරන්න
-                if (!append) { // නව පෙරහනක් හෝ ආරම්භක load කිරීමක් නම් පමණක් scroll කරන්න
-                    window.scrollTo({ top: featuredWallpapersContainer.offsetTop - 100, behavior: 'smooth' });
-                }
+                // Removed auto-scrolling as per user request
+                // if (!append) { // නව පෙරහනක් හෝ ආරම්භක load කිරීමක් නම් පමණක් scroll කරන්න
+                //     window.scrollTo({ top: featuredWallpapersContainer.offsetTop - 100, behavior: 'smooth' });
+                // }
             }
 
             // URL parameters parse කිරීමේ ශ්‍රිතය
@@ -551,6 +566,7 @@
                 button.addEventListener('click', (event) => {
                     const category = event.target.dataset.category;
                     currentFilterCategory = category;
+                    currentSearchTerm = null; // Clear search term when category is selected
                     currentPageOffset = 0; // නව පෙරහන සඳහා pagination reset කරන්න
                     renderWallpapers(); // නව පෙරහන සමඟ wallpapers render කරන්න
                 });
@@ -711,8 +727,7 @@
                             trackWallpaperClick(wallpaperId); // Track click
                             const detailPageUrl = `detail.html?id=${wallpaperId}&title=${encodeURIComponent(wallpaperTitle)}&description=${encodeURIComponent(wallpaperDescription)}&src=${encodeURIComponent(wallpaperSrc)}&labels=${encodeURIComponent(wallpaperLabels)}`;
                             console.log('Generated Detail Page URL (Trending):', detailPageUrl); // Debugging line
-                            window.open(detailPageUrl, '_blank'); // Open in new tab
-                            hideModal(); // Close modal after opening detail page
+                            window.location.href = detailPageUrl; // Load in current tab
                         });
                     });
 
@@ -771,8 +786,7 @@
                             trackWallpaperClick(wallpaperId); // Track click
                             const detailPageUrl = `detail.html?id=${wallpaperId}&title=${encodeURIComponent(wallpaperTitle)}&description=${encodeURIComponent(wallpaperDescription)}&src=${encodeURIComponent(wallpaperSrc)}&labels=${encodeURIComponent(wallpaperLabels)}`;
                             console.log('Generated Detail Page URL (Popular):', detailPageUrl); // Debugging line
-                            window.open(detailPageUrl, '_blank'); // Open in new tab
-                            hideModal(); // Close modal after opening detail page
+                            window.location.href = detailPageUrl; // Load in current tab
                         });
                     });
 
@@ -843,11 +857,11 @@
 
                 categories.forEach(category => {
                     const categoryCardHtml = `
-                        <div class="flex-shrink-0 w-full sm:w-1/2 lg:w-1/3 bg-black bg-opacity-50 backdrop-blur-sm rounded-3xl p-2 shadow-2xl border border-gray-700 transform hover:scale-105 transition duration-300 cursor-pointer category-card"
+                        <div class="flex-shrink-0 w-full sm:w-1/2 lg:w-1/3 bg-black bg-opacity-50 backdrop-blur-sm rounded-3xl p-1 shadow-2xl border border-gray-700 transform hover:scale-105 transition duration-300 cursor-pointer category-card"
                              data-category-name="${category.name}">
-                            <h2 class="text-2xl font-bold mb-3 text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-400">${category.name}</h2>
+                            <h2 class="text-base font-bold mb-3 text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-400">${category.name}</h2>
                             <div class="flex justify-center items-center">
-                                <img src="${category.imageUrl}" alt="${category.name} Wallpaper" class="w-full h-72 object-cover rounded-lg shadow-md hover:shadow-xl transition duration-300" onerror="this.onerror=null;this.src='https://placehold.co/400x225/000000/FFFFFF?text=${category.name}';">
+                                <img src="${category.imageUrl}" alt="${category.name} Wallpaper" class="w-full h-48 object-cover rounded-lg shadow-md hover:shadow-xl transition duration-300" onerror="this.onerror=null;this.src='https://placehold.co/400x225/000000/FFFFFF?text=${category.name}';">
                             </div>
                         </div>
                     `;
@@ -859,6 +873,7 @@
                     card.addEventListener('click', (event) => {
                         const category = card.dataset.categoryName;
                         currentFilterCategory = category;
+                        currentSearchTerm = null; // Clear search term when category is selected
                         currentPageOffset = 0; // Reset pagination for new filter
                         // Use window.location.href for full reload to bypass pushState security error
                         const newUrl = new URL(window.location.href);
@@ -1014,6 +1029,25 @@
                         }
                     }
                 }, 150); // Debounce time
+            });
+
+            // Search functionality event listeners
+            searchButton.addEventListener('click', () => {
+                const searchTerm = searchInput.value.trim();
+                currentSearchTerm = searchTerm;
+                currentFilterCategory = null; // Clear category filter when searching
+                currentPageOffset = 0; // Reset pagination for new search
+                renderWallpapers(); // Render wallpapers with search term
+            });
+
+            searchInput.addEventListener('keypress', (event) => {
+                if (event.key === 'Enter') {
+                    const searchTerm = searchInput.value.trim();
+                    currentSearchTerm = searchTerm;
+                    currentFilterCategory = null; // Clear category filter when searching
+                    currentPageOffset = 0; // Reset pagination for new search
+                    renderWallpapers(); // Render wallpapers with search term
+                }
             });
 
             // Initial setup for categories and wallpapers
