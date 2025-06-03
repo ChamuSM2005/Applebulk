@@ -3,98 +3,357 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Wallpaper Details</title>
+    <title id="detailPageTitle">Wallpaper Details</title>
+    <!-- Tailwind CSS CDN for modern styling and responsiveness -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <!-- Google Fonts - Inter for general text -->
+    <link href="https://fonts.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Supabase SDK for data fetching -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <style>
+        /* Custom CSS for the animated background (similar to index.html) */
+        @import url('https://fonts.googleapis.com/css?family=Exo:400,700');
+
         body {
             font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
             background-color: #0a0a0a;
-            color: #ffffff;
-            min-height: 100vh;
+        }
+
+        .area {
+            background: #0f0c29;
+            background: -webkit-linear-gradient(to left, #24243e, #302b63, #0f0c29);
+            background: linear-gradient(to left, #24243e, #302b63, #0f0c29);
+            width: 100%;
+            height: 100vh;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: -1;
+        }
+
+        .circles {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        .circles li {
+            position: absolute;
+            display: block;
+            list-style: none;
+            width: 20px;
+            height: 20px;
+            background: rgba(255, 255, 255, 0.15);
+            animation: animate 25s linear infinite;
+            bottom: -150px;
+            border-radius: 50%;
+        }
+
+        .circles li:nth-child(1) { left: 25%; width: 80px; height: 80px; animation-delay: 0s; }
+        .circles li:nth-child(2) { left: 10%; width: 20px; height: 20px; animation-delay: 2s; animation-duration: 12s; }
+        .circles li:nth-child(3) { left: 70%; width: 20px; height: 20px; animation-delay: 4s; }
+        .circles li:nth-child(4) { left: 40%; width: 60px; height: 60px; animation-delay: 0s; animation-duration: 18s; }
+        .circles li:nth-child(5) { left: 65%; width: 20px; height: 20px; animation-delay: 0s; }
+        .circles li:nth-child(6) { left: 75%; width: 110px; height: 110px; animation-delay: 3s; }
+        .circles li:nth-child(7) { left: 35%; width: 150px; height: 150px; animation-delay: 7s; }
+        .circles li:nth-child(8) { left: 50%; width: 25px; height: 25px; animation-delay: 15s; animation-duration: 45s; }
+        .circles li:nth-child(9) { left: 20%; width: 15px; height: 15px; animation-delay: 2s; animation-duration: 35s; }
+        .circles li:nth-child(10) { left: 85%; width: 150px; height: 150px; animation-delay: 0s; animation-duration: 11s; }
+
+        @keyframes animate {
+            0% { transform: translateY(0) rotate(0deg); opacity: 1; border-radius: 0; }
+            100% { transform: translateY(-1000px) rotate(720deg); opacity: 0; border-radius: 50%; }
+        }
+
+        /* Modal specific styles */
+        .modal {
+            display: none; /* Hidden by default */
+            position: fixed; /* Stay in place */
+            z-index: 100; /* Sit on top */
+            left: 0;
+            top: 0;
+            width: 100%; /* Full width */
+            height: 100%; /* Full height */
+            overflow: auto; /* Enable scroll if needed */
+            background-color: rgba(0,0,0,0.7); /* Black w/ opacity */
             display: flex;
-            flex-direction: column;
             align-items: center;
             justify-content: center;
-            padding: 20px;
-            overflow-x: hidden;
         }
-        .container {
+
+        .modal-content {
             background-color: #1a1a2e;
+            margin: auto;
+            padding: 20px;
             border-radius: 12px;
-            padding: 30px;
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
-            max-width: 800px;
-            width: 100%;
-            text-align: center;
-            border: 1px solid #302b63;
+            width: 90%; /* Adjusted width for better responsiveness */
+            max-width: 600px; /* Max-width for modal content */
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            position: relative;
+            animation: fadeIn 0.3s ease-out;
         }
-        img {
-            max-width: 100%;
-            height: auto;
-            border-radius: 8px;
-            margin-bottom: 20px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-        }
-        h1 {
-            font-size: 2.5rem;
+
+        .close-button {
+            color: #aaa;
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            font-size: 28px;
             font-weight: bold;
-            margin-bottom: 15px;
-            background-image: linear-gradient(to right, #purple-400, #pink-500);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            cursor: pointer;
+            transition: color 0.2s;
         }
-        p {
-            font-size: 1.1rem;
-            color: #a0a0a0;
-            margin-bottom: 25px;
-            line-height: 1.6;
-        }
-        .download-button {
-            display: inline-block;
-            padding: 12px 28px;
-            background-image: linear-gradient(to right, #6d28d9, #4f46e5);
-            color: #ffffff;
-            font-weight: 600;
-            border-radius: 9999px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-            transition: all 0.3s ease-in-out;
+
+        .close-button:hover,
+        .close-button:focus {
+            color: #fff;
             text-decoration: none;
+            cursor: pointer;
         }
-        .download-button:hover {
-            transform: scale(1.05);
-            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4);
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
         }
     </style>
 </head>
-<body>
-    <div class="container">
-        <img id="wallpaperImage" src="" alt="Wallpaper Image">
-        <h1 id="wallpaperTitle"></h1>
-        <p id="wallpaperDescription"></p>
-        <a id="downloadLink" href="#" class="download-button" download>Download Wallpaper</a>
+<body class="bg-gray-900 text-white min-h-screen flex flex-col">
+
+    <div class="area">
+        <ul class="circles">
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+        </ul>
+    </div>
+
+    <div class="relative z-10 flex flex-col flex-grow">
+        <header class="w-full py-4 px-6 md:px-12 flex flex-col sm:flex-row items-center justify-between bg-black bg-opacity-40 shadow-lg rounded-b-xl">
+            <div class="flex items-center space-x-3 mb-4 sm:mb-0">
+                <img src="https://placehold.co/40x40/302b63/FFFFFF?text=LOGO" alt="Website Logo" class="rounded-full shadow-md">
+                <h1 class="text-2xl md:text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-500">
+                    Luxury Wallpapers
+                </h1>
+            </div>
+            <div class="flex space-x-4">
+                <a href="index.html" class="text-white hover:text-purple-400 transition duration-300 text-xl">
+                    <i class="fas fa-home"></i> Home
+                </a>
+                <a href="https://www.tiktok.com/" target="_blank" aria-label="TikTok" class="text-white hover:text-purple-400 transition duration-300 text-xl">
+                    <i class="fab fa-tiktok"></i>
+                </a>
+                <a href="https://www.instagram.com/" target="_blank" aria-label="Instagram" class="text-white hover:text-pink-400 transition duration-300 text-xl">
+                    <i class="fab fa-instagram"></i>
+                </a>
+                <a href="https://www.threads.net/" target="_blank" aria-label="Threads" class="text-white hover:text-blue-400 transition duration-300 text-xl">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="w-5 h-5 fill-current">
+                        <path d="M64 32C28.7 32 0 60.7 0 96V416c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V96c0-35.3-28.7-64-64-64H64zM294.2 244.3c19.5 9.3 33.7 23.5 41.2 40.9c10.4 24.3 11.4 63.9-20.2 95.4c-24.2 24.1-53.5 35-95.1 35.3h-.2c-46.8-.3-82.8-16.1-106.9-46.8C91.5 341.8 80.4 303.7 80 256v-.1-.1c.4-47.7 11.5-85.7 33-113.1c24.2-30.7 60.2-46.5 106.9-46.8h.2c46.9 .3 83.3 16 108.2 46.6c12.3 15.1 21.3 33.3 27 54.4l-26.9 7.2c-4.7-17.2-11.9-31.9-21.4-43.6c-19.4-23.9-48.7-36.1-87-36.4c-38 .3-66.8 12.5-85.5 36.2c-17.5 22.3-26.6 54.4-26.9 95.5c.3 41.1 9.4 73.3 26.9 95.5c18.7 23.8 47.4 36 85.5 36.2c34.3-.3 56.9-8.4 75.8-27.3c21.5-21.5 21.1-47.9 14.2-64c-4-9.4-11.4-17.3-21.3-23.3c-2.4 18-7.9 32.2-16.5 43.2c-11.4 14.5-27.7 22.4-48.4 23.5c-15.7 .9-30.8-2.9-42.6-10.7c-13.9-9.2-22-23.2-22.9-39.5c-1.7-32.2 23.8-55.3 63.5-57.6c14.1-.8 27.3-.2 39.5 1.9c-1.6-9.9-4.9-17.7-9.8-23.4c-6.7-7.8-17.1-11.8-30.8-11.9h-.4c-11 0-26 3.1-35.6 17.6l-23-15.8c12.8-19.4 33.6-30.1 58.5-30.1h.6c41.8 .3 66.6 26.3 69.1 71.8c1.4 .6 2.8 1.2 4.2 1.9l.1 .5zm-71.8 67.5c17-.9 36.4-7.6 39.7-48.8c-8.8-1.9-18.6-2.9-29-2.9c-3.2 0-6.4 .1-9.6 .3c-28.6 1.6-38.1 15.5-37.4 27.9c.9 16.7 19 24.5 36.4 23.6l-.1-.1z"/>
+                    </svg>
+                </a>
+            </div>
+        </header>
+
+        <main class="flex-grow container mx-auto px-4 py-8 md:py-12">
+            <section class="bg-black bg-opacity-50 backdrop-blur-sm rounded-3xl p-6 shadow-2xl border border-gray-700 flex flex-col lg:flex-row items-center lg:items-start gap-8">
+                <div class="lg:w-1/2 flex justify-center">
+                    <img id="wallpaperImage" src="https://placehold.co/600x1067/000000/FFFFFF?text=Loading..." alt="Wallpaper" class="w-full max-w-lg h-auto object-cover rounded-xl shadow-lg border border-gray-600" onerror="this.onerror=null;this.src='https://placehold.co/600x1067/000000/FFFFFF?text=Image+Error';">
+                </div>
+                <div class="lg:w-1/2 text-center lg:text-left">
+                    <h2 id="wallpaperTitle" class="text-4xl md:text-5xl font-bold mb-4 text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-500">Loading...</h2>
+                    <p id="wallpaperDescription" class="text-gray-300 text-lg mb-6 leading-relaxed">Loading description...</p>
+                    <div id="wallpaperLabels" class="flex flex-wrap justify-center lg:justify-start gap-2 mb-8">
+                        <!-- Labels will be loaded here -->
+                    </div>
+
+                    <button id="downloadButton" class="px-8 py-4 bg-gradient-to-r from-blue-600 to-cyan-700 text-white font-semibold text-xl rounded-full shadow-lg hover:shadow-xl transform hover:scale-105 transition duration-300 ease-in-out flex items-center justify-center mx-auto lg:mx-0">
+                        <i class="fas fa-download mr-3"></i> Download Wallpaper
+                    </button>
+
+                    <!-- Adsterra Native Banner Ad -->
+                    <div class="mt-8 flex justify-center">
+                        <script async="async" data-cfasync="false" src="//fireworkswad.com/8b4f31e8ded7a53e01d1e4e2a1348720/invoke.js"></script>
+                        <div id="container-8b4f31e8ded7a53e01d1e4e2a1348720"></div>
+                    </div>
+                    <!-- End Adsterra Native Banner Ad -->
+
+                </div>
+            </section>
+        </main>
+
+        <div id="messageModal" class="modal hidden">
+            <div class="modal-content text-center">
+                <span class="close-button" id="closeModalButton">&times;</span>
+                <h3 class="text-2xl font-bold mb-4 text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-400" id="modalTitle"></h3>
+                <p class="text-gray-300 mb-4" id="modalMessage"></p>
+                <div id="modalContent" class="text-left text-gray-200"></div>
+            </div>
+        </div>
+
+        <footer class="w-full py-6 px-6 md:px-12 text-center bg-black bg-opacity-40 rounded-t-xl mt-12">
+            <p class="text-gray-400 text-sm">&copy; 2025 Luxury Wallpapers. All rights reserved.</p>
+        </footer>
     </div>
 
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const params = new URLSearchParams(window.location.search);
-            const id = params.get('id');
-            const title = params.get('title');
-            const description = params.get('description');
-            const src = params.get('src');
+        // Supabase Client Initialization
+        const SUPABASE_URL = 'https://bddphtmddbfatuibppsp.supabase.co'; // Replace with your actual Supabase URL
+        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJkZHBodG1kZGJmYXR1aWJwcHNwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDg4ODc3MzMsImV4cCI6MjA2NDQ2MzczM30.u484-EmP6RqM8UQS5gv0RaYj4szI4iGIFffv6Z3wJaw'; // Replace with your actual Supabase Anon Key
 
-            if (id && title && description && src) {
-                document.getElementById('wallpaperImage').src = decodeURIComponent(src);
-                document.getElementById('wallpaperImage').alt = decodeURIComponent(title);
-                document.getElementById('wallpaperTitle').textContent = decodeURIComponent(title);
-                document.getElementById('wallpaperDescription').textContent = decodeURIComponent(description);
-                document.getElementById('downloadLink').href = decodeURIComponent(src); // Set download link to image source
-            } else {
-                document.getElementById('wallpaperTitle').textContent = 'Wallpaper Not Found';
-                document.getElementById('wallpaperDescription').textContent = 'The requested wallpaper could not be loaded.';
-                document.getElementById('wallpaperImage').style.display = 'none'; // Hide image if not found
-                document.getElementById('downloadLink').style.display = 'none'; // Hide download button
+        if (!window.supabase) {
+            console.error("Supabase library failed to load. Please check the script URL or network connection.");
+            showModal('Error', 'Failed to load Supabase library. Please try again later.');
+        }
+        const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+        // Get elements
+        const detailPageTitle = document.getElementById('detailPageTitle');
+        const wallpaperImage = document.getElementById('wallpaperImage');
+        const wallpaperTitle = document.getElementById('wallpaperTitle');
+        const wallpaperDescription = document.getElementById('wallpaperDescription');
+        const wallpaperLabelsContainer = document.getElementById('wallpaperLabels');
+        const downloadButton = document.getElementById('downloadButton');
+
+        const messageModal = document.getElementById('messageModal');
+        const closeModalButton = document.getElementById('closeModalButton');
+        const modalTitle = document.getElementById('modalTitle');
+        const modalMessage = document.getElementById('modalMessage');
+        const modalContent = document.getElementById('modalContent');
+
+        // Function to parse URL parameters
+        function getUrlParameter(name) {
+            name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+            var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+            var results = regex.exec(location.search);
+            return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+        };
+
+        // Function to display modal messages
+        function showModal(title, message, content = '') {
+            modalTitle.textContent = title;
+            modalMessage.textContent = message;
+            modalContent.innerHTML = content;
+            messageModal.classList.remove('hidden');
+            messageModal.classList.add('flex');
+        }
+
+        function hideModal() {
+            modalTitle.textContent = '';
+            modalMessage.textContent = '';
+            modalContent.innerHTML = '';
+            messageModal.classList.add('hidden');
+            messageModal.classList.remove('flex');
+        }
+
+        closeModalButton.addEventListener('click', hideModal);
+        messageModal.addEventListener('click', (event) => {
+            if (event.target === messageModal) {
+                hideModal();
             }
+        });
+
+        // Function to track wallpaper downloads in Supabase
+        async function trackWallpaperDownload(wallpaperId) {
+            try {
+                const { data: currentData, error: fetchError } = await supabase
+                    .from('wallpapers')
+                    .select('downloads')
+                    .eq('id', wallpaperId)
+                    .single();
+
+                if (fetchError && fetchError.code !== 'PGRST116') { // PGRST116 is "No rows found"
+                    console.error(`Error fetching current downloads for ${wallpaperId}:`, fetchError.message);
+                    return;
+                }
+
+                const currentDownloads = currentData ? currentData.downloads : 0;
+                const newDownloads = currentDownloads + 1;
+
+                const { data, error } = await supabase
+                    .from('wallpapers')
+                    .update({ downloads: newDownloads })
+                    .eq('id', wallpaperId);
+
+                if (error) {
+                    console.error(`Error tracking download for wallpaper ID ${wallpaperId}:`, error.message);
+                } else {
+                    console.log(`Download tracked for wallpaper ${wallpaperId}: New downloads = ${newDownloads}`);
+                }
+            } catch (error) {
+                console.error("Network error tracking download:", error);
+            }
+        }
+
+        // Load wallpaper details when the page loads
+        document.addEventListener('DOMContentLoaded', () => {
+            const id = getUrlParameter('id');
+            const title = getUrlParameter('title');
+            const description = getUrlParameter('description');
+            const src = getUrlParameter('src');
+            const labels = getUrlParameter('labels');
+
+            if (id && title && src) {
+                detailPageTitle.textContent = title;
+                wallpaperImage.src = src;
+                wallpaperTitle.textContent = title;
+                wallpaperDescription.textContent = description || 'No description available.';
+
+                // Display labels
+                if (labels) {
+                    const labelArray = labels.split(',');
+                    labelArray.forEach(label => {
+                        const span = document.createElement('span');
+                        span.textContent = label.trim();
+                        span.classList.add('bg-gray-700', 'text-gray-200', 'px-3', 'py-1', 'rounded-full', 'text-sm', 'font-medium', 'shadow-md');
+                        wallpaperLabelsContainer.appendChild(span);
+                    });
+                }
+            } else {
+                showModal('Error', 'Wallpaper details not found. Please go back to the home page and select a wallpaper.');
+            }
+
+            // Download button click event
+            downloadButton.addEventListener('click', () => {
+                const wallpaperId = getUrlParameter('id');
+                const wallpaperSrc = getUrlParameter('src');
+                const wallpaperTitleForDownload = getUrlParameter('title');
+
+                if (wallpaperSrc) {
+                    // 1. Load Adsterra direct link in the current page
+                    window.location.href = 'https://truckwinding.com/qjrwgdh5?key=9960743e1ca2babd0c81e50b86a83eda';
+
+                    // 2. Trigger automatic download of the wallpaper
+                    const a = document.createElement('a');
+                    a.href = wallpaperSrc;
+                    // Attempt to get a filename from the URL, otherwise use a generic name
+                    const filename = wallpaperSrc.substring(wallpaperSrc.lastIndexOf('/') + 1) || 'wallpaper.jpg';
+                    a.download = wallpaperTitleForDownload ? `${wallpaperTitleForDownload.replace(/[^a-z0-9]/gi, '_')}.jpg` : filename;
+                    document.body.appendChild(a);
+                    a.click();
+                    document.body.removeChild(a);
+
+                    // 3. Track the download in Supabase
+                    if (wallpaperId) {
+                        trackWallpaperDownload(wallpaperId);
+                    }
+                } else {
+                    showModal('Error', 'Cannot download wallpaper. Image source not found.');
+                }
+            });
         });
     </script>
 </body>
