@@ -317,7 +317,7 @@
         // Function to fetch and render multiple wallpapers
         async function fetchAndRenderWallpapers(wallpaperIds) {
             if (!wallpaperIds || wallpaperIds.length === 0) {
-                wallpapersContainer.innerHTML = '<p class="text-center text-gray-400 text-lg col-span-full">No wallpaper IDs provided to display. Please ensure your URL contains `?ids=YOUR_WALLPAPER_ID_1,YOUR_WALLPAPER_ID_2` or similar.</p>';
+                wallpapersContainer.innerHTML = '<p class="text-center text-gray-400 text-lg col-span-full">පෙන්වීමට Wallpaper ID කිසිවක් සපයා නැත. ඔබගේ URL එකේ `?ids=YOUR_WALLPAPER_ID_1,YOUR_WALLPAPER_ID_2` හෝ ඒ හා සමාන දෙයක් ඇතුළත් කර ඇති බවට වග බලා ගන්න.</p>';
                 return;
             }
 
@@ -339,7 +339,7 @@
                 }).filter(data => data !== null); // Filter out nulls (failed fetches)
 
                 if (wallpapersData.length === 0) {
-                    wallpapersContainer.innerHTML = '<p class="text-center text-gray-400 text-lg col-span-full">Could not find any wallpapers for the provided IDs. Please ensure they exist in your Supabase "wallpapers" table.</p>';
+                    wallpapersContainer.innerHTML = '<p class="text-center text-gray-400 text-lg col-span-full">සපයන ලද ID සඳහා කිසිදු Wallpaper එකක් සොයා ගැනීමට නොහැකි විය. ඒවා ඔබගේ Supabase "wallpapers" table එකේ පවතින බවට වග බලා ගන්න.</p>';
                     return;
                 }
 
@@ -382,7 +382,7 @@
 
             } catch (error) {
                 console.error('Error fetching wallpapers:', error);
-                showModal('Error', 'Failed to load wallpapers. Please check your internet connection or Supabase configuration.');
+                showModal('Error', 'Wallpapers load කිරීමට අසමත් විය. කරුණාකර ඔබගේ අන්තර්ජාල සම්බන්ධතාවය හෝ Supabase වින්‍යාසය පරීක්ෂා කරන්න.');
             }
         }
 
