@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title id="detailPageTitle">Luxury Wallpapers - Details</title> <!-- Changed title to static -->
+    <title id="detailPageTitle">Luxury Wallpapers - Details</title>
     <!-- Tailwind CSS CDN for modern styling and responsiveness -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Google Fonts - Inter for general text -->
@@ -169,32 +169,9 @@
         </header>
 
         <main class="flex-grow container mx-auto px-4 py-8 md:py-12">
-            <section class="bg-black bg-opacity-50 backdrop-blur-sm rounded-3xl p-6 shadow-2xl border border-gray-700 flex flex-col lg:flex-row items-center lg:items-start gap-3"> <!-- Reduced gap-4 to gap-3 -->
-                <div class="lg:w-1/2 flex justify-center">
-                    <img id="wallpaperImage" src="https://placehold.co/600x1067/000000/FFFFFF?text=Loading..." alt="Wallpaper" class="w-full max-w-sm h-auto object-cover rounded-xl shadow-lg border border-gray-600" onerror="this.onerror=null;this.src='https://placehold.co/600x1067/000000/FFFFFF?text=Image+Error';"> <!-- Changed max-w-[120px] to max-w-sm -->
-                </div>
-                <div class="lg:w-1/2 text-center lg:text-left">
-                    <!-- <h2 id="wallpaperTitle" class="text-4xl md:text-5xl font-bold mb-4 text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-500">Loading...</h2> Removed wallpaper title -->
-                    <p id="wallpaperDescription" class="text-gray-300 text-lg mb-4 leading-relaxed"></p> <!-- Reduced mb-6 to mb-4, removed default text -->
-                    <!-- <div id="wallpaperLabels" class="flex flex-wrap justify-center lg:justify-start gap-2 mb-8"> Removed wallpaper labels -->
-                        <!-- Labels will be loaded here -->
-                    <!-- </div> -->
-
-                    <button id="downloadButton" class="px-6 py-3 bg-gradient-to-r from-blue-600 to-cyan-700 text-white font-semibold text-lg rounded-full shadow-lg hover:shadow-xl transform hover:scale-105 transition duration-300 ease-in-out flex items-center justify-center mx-auto lg:mx-0">
-                        <i class="fas fa-download mr-3"></i> Download Wallpaper
-                    </button>
-
-                    <p class="text-gray-400 text-xs mt-2 mb-4">If you sometimes get a pop-up ad, close it and come back to this page. Click the download button again.</p>
-
-                    <!-- Adsterra Native Banner Ad -->
-                    <div class="mt-2 flex justify-center"> <!-- Reduced mt-4 to mt-2 -->
-                        <script async="async" data-cfasync="false" src="//fireworkswad.com/8b4f31e8ded7a53e01d1e4e2a1348720/invoke.js"></script>
-                        <div id="container-8b4f31e8ded7a53e01d1e4e2a1348720"></div>
-                    </div>
-                    <!-- End Adsterra Native Banner Ad -->
-
-                </div>
-            </section>
+            <div id="wallpapersContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2 gap-8">
+                <!-- Wallpapers will be dynamically loaded here -->
+            </div>
         </main>
 
         <div id="messageModal" class="modal hidden">
@@ -213,8 +190,8 @@
 
     <script>
         // Supabase Client Initialization
-        const SUPABASE_URL = 'https://bddphtmddbfatuibppsp.supabase.co'; // Replace with your actual Supabase URL
-        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJkZHBodG1kZGJmYXR1aWJwcHNwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDg4ODc3MzMsImV4cCI6MjA2NDQ2MzczM30.u484-EmP6RqM8UQS5gv0RaYj4szI4iGIFffv6Z3wJaw'; // Replace with your actual Supabase Anon Key
+        const SUPABASE_URL = 'https://bddphtmddbfatuibppsp.supabase.co'; // ඔබේ Supabase URL එක මෙහි ඇතුළත් කරන්න
+        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJkZHBodG1kZGJmYXR1aWJwcHNwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDg4ODc3MzMsImV4cCI6MjA2NDQ2MzczM30.u484-EmP6RqM8UQS5gv0RaYj4szI4iGIFffv6Z3wJaw'; // ඔබේ Supabase Anon Key එක මෙහි ඇතුළත් කරන්න
 
         if (!window.supabase) {
             console.error("Supabase library failed to load. Please check the script URL or network connection.");
@@ -223,27 +200,15 @@
         const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
         // Get elements
-        const detailPageTitle = document.getElementById('detailPageTitle');
-        const wallpaperImage = document.getElementById('wallpaperImage');
-        const wallpaperDescription = document.getElementById('wallpaperDescription');
-        const downloadButton = document.getElementById('downloadButton');
-
+        const wallpapersContainer = document.getElementById('wallpapersContainer');
         const messageModal = document.getElementById('messageModal');
         const closeModalButton = document.getElementById('closeModalButton');
         const modalTitle = document.getElementById('modalTitle');
         const modalMessage = document.getElementById('modalMessage');
         const modalContent = document.getElementById('modalContent');
 
-        // State variable to track download button clicks
-        let downloadClickCount = 0;
-
-        // Function to parse URL parameters
-        function getUrlParameter(name) {
-            name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
-            var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
-            var results = regex.exec(location.search);
-            return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
-        };
+        // Adsterra Direct Link
+        const ADSTERRA_DIRECT_LINK = 'https://truckwinding.com/qjrwgdh5?key=9960743e1ca2babd0c81e50b86a83eda';
 
         // Function to display modal messages
         function showModal(title, message, content = '') {
@@ -301,56 +266,136 @@
             }
         }
 
-        // Load wallpaper details when the page loads
-        document.addEventListener('DOMContentLoaded', () => {
-            const id = getUrlParameter('id');
-            const title = getUrlParameter('title'); // Keep title for download filename
-            const description = getUrlParameter('description');
-            const src = getUrlParameter('src');
+        // Function to handle download button clicks for individual wallpapers
+        function handleDownloadClick(event) {
+            const button = event.currentTarget;
+            const wallpaperId = button.dataset.wallpaperId;
+            const wallpaperSrc = button.dataset.wallpaperSrc;
+            const wallpaperTitleForDownload = button.dataset.wallpaperTitle;
+            let clickCount = parseInt(button.dataset.clickCount || '0');
 
-            if (id && src) {
-                wallpaperImage.src = src;
-                wallpaperDescription.textContent = description || ''; // Show nothing if description is empty
+            if (wallpaperSrc) {
+                clickCount++; // Increment click count
+                button.dataset.clickCount = clickCount; // Update data attribute
+
+                if (clickCount === 1) {
+                    // First click: Open Adsterra direct link in a new tab
+                    window.open(ADSTERRA_DIRECT_LINK, '_blank');
+                    button.innerHTML = '<i class="fas fa-download mr-3"></i> Click to Download'; // Update button text
+                } else if (clickCount === 2) {
+                    // Second click: Trigger automatic download
+                    const a = document.createElement('a');
+                    a.href = wallpaperSrc;
+                    const filename = wallpaperTitleForDownload ? `${wallpaperTitleForDownload.replace(/[^a-z0-9]/gi, '_')}.jpg` : (wallpaperSrc.substring(wallpaperSrc.lastIndexOf('/') + 1) || 'wallpaper.jpg');
+                    a.download = filename;
+                    document.body.appendChild(a);
+                    a.click();
+                    document.body.removeChild(a);
+
+                    // Track the download in Supabase
+                    if (wallpaperId) {
+                        trackWallpaperDownload(wallpaperId);
+                    }
+
+                    // Reset click count and button text for next sequence
+                    button.dataset.clickCount = '0';
+                    button.innerHTML = '<i class="fas fa-download mr-3"></i> Download Wallpaper';
+                }
             } else {
-                showModal('Error', 'Wallpaper details not found. Please go back to the home page and select a wallpaper.');
+                showModal('Error', 'Cannot download wallpaper. Image source not found.');
+            }
+        }
+
+        // Function to parse URL parameters
+        function getUrlParameter(name) {
+            name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+            var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+            var results = regex.exec(location.search);
+            return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+        };
+
+        // Function to fetch and render multiple wallpapers
+        async function fetchAndRenderWallpapers(wallpaperIds) {
+            if (!wallpaperIds || wallpaperIds.length === 0) {
+                wallpapersContainer.innerHTML = '<p class="text-center text-gray-400 text-lg col-span-full">No wallpaper IDs provided to display. Please ensure your URL contains `?ids=YOUR_WALLPAPER_ID_1,YOUR_WALLPAPER_ID_2` or similar.</p>';
+                return;
             }
 
-            // Download button click event
-            downloadButton.addEventListener('click', () => {
-                const wallpaperId = getUrlParameter('id');
-                const wallpaperSrc = getUrlParameter('src');
-                const wallpaperTitleForDownload = getUrlParameter('title');
+            try {
+                // Fetch all wallpapers concurrently
+                const fetchPromises = wallpaperIds.map(id =>
+                    supabase.from('wallpapers').select('*').eq('id', id).single()
+                );
+                const results = await Promise.all(fetchPromises);
 
-                if (wallpaperSrc) {
-                    downloadClickCount++; // Increment click count
+                wallpapersContainer.innerHTML = ''; // Clear existing content
 
-                    if (downloadClickCount === 1) {
-                        // First click: Open Adsterra direct link in a new tab
-                        window.open('https://truckwinding.com/qjrwgdh5?key=9960743e1ca2babd0c81e50b86a83eda', '_blank');
-                        downloadButton.innerHTML = '<i class="fas fa-download mr-3"></i> Click to Download'; // Update button text
-                    } else if (downloadClickCount === 2) {
-                        // Second click: Trigger automatic download
-                        const a = document.createElement('a');
-                        a.href = wallpaperSrc;
-                        const filename = wallpaperTitleForDownload ? `${wallpaperTitleForDownload.replace(/[^a-z0-9]/gi, '_')}.jpg` : (wallpaperSrc.substring(wallpaperSrc.lastIndexOf('/') + 1) || 'wallpaper.jpg');
-                        a.download = filename;
-                        document.body.appendChild(a);
-                        a.click();
-                        document.body.removeChild(a);
-
-                        // Track the download in Supabase
-                        if (wallpaperId) {
-                            trackWallpaperDownload(wallpaperId);
-                        }
-
-                        // Reset click count and button text for next sequence
-                        downloadClickCount = 0;
-                        downloadButton.innerHTML = '<i class="fas fa-download mr-3"></i> Download Wallpaper';
+                const wallpapersData = results.map(result => {
+                    if (result.error && result.error.code !== 'PGRST116') { // PGRST116 is "No rows found"
+                        console.error('Error fetching wallpaper:', result.error.message);
+                        return null; // Return null for failed fetches
                     }
-                } else {
-                    showModal('Error', 'Cannot download wallpaper. Image source not found.');
+                    return result.data;
+                }).filter(data => data !== null); // Filter out nulls (failed fetches)
+
+                if (wallpapersData.length === 0) {
+                    wallpapersContainer.innerHTML = '<p class="text-center text-gray-400 text-lg col-span-full">Could not find any wallpapers for the provided IDs. Please ensure they exist in your Supabase "wallpapers" table.</p>';
+                    return;
                 }
-            });
+
+                // Render each wallpaper
+                wallpapersData.forEach(wallpaper => {
+                    const wallpaperCardHtml = `
+                        <section class="bg-black bg-opacity-50 backdrop-blur-sm rounded-3xl p-6 shadow-2xl border border-gray-700 flex flex-col lg:flex-row items-center lg:items-start gap-3">
+                            <div class="lg:w-1/2 flex justify-center">
+                                <img src="${wallpaper.image_url}" alt="${wallpaper.title || 'Wallpaper'}" class="w-full max-w-sm h-auto object-cover rounded-xl shadow-lg border border-gray-600" onerror="this.onerror=null;this.src='https://placehold.co/600x1067/000000/FFFFFF?text=Image+Error';">
+                            </div>
+                            <div class="lg:w-1/2 text-center lg:text-left">
+                                <p class="text-gray-300 text-lg mb-4 leading-relaxed">${wallpaper.description || ''}</p>
+
+                                <button class="download-button px-6 py-3 bg-gradient-to-r from-blue-600 to-cyan-700 text-white font-semibold text-lg rounded-full shadow-lg hover:shadow-xl transform hover:scale-105 transition duration-300 ease-in-out flex items-center justify-center mx-auto lg:mx-0"
+                                     data-wallpaper-id="${wallpaper.id}"
+                                     data-wallpaper-src="${wallpaper.image_url}"
+                                     data-wallpaper-title="${wallpaper.title || ''}"
+                                     data-click-count="0">
+                                    <i class="fas fa-download mr-3"></i> Download Wallpaper
+                                </button>
+
+                                <p class="text-gray-400 text-xs mt-2 mb-4">If you sometimes get a pop-up ad, close it and come back to this page. Click the download button again.</p>
+
+                                <!-- Adsterra Native Banner Ad -->
+                                <div class="mt-2 flex justify-center">
+                                    <script async="async" data-cfasync="false" src="//fireworkswad.com/8b4f31e8ded7a53e01d1e4e2a1348720/invoke.js"></script>
+                                    <div id="container-8b4f31e8ded7a53e01d1e4e2a1348720"></div>
+                                </div>
+                                <!-- End Adsterra Native Banner Ad -->
+                            </div>
+                        </section>
+                    `;
+                    wallpapersContainer.insertAdjacentHTML('beforeend', wallpaperCardHtml);
+                });
+
+                // Add event listeners to all dynamically created download buttons
+                document.querySelectorAll('.download-button').forEach(button => {
+                    button.addEventListener('click', handleDownloadClick);
+                });
+
+            } catch (error) {
+                console.error('Error fetching wallpapers:', error);
+                showModal('Error', 'Failed to load wallpapers. Please check your internet connection or Supabase configuration.');
+            }
+        }
+
+        // Load wallpapers when the page loads
+        document.addEventListener('DOMContentLoaded', () => {
+            const idsParam = getUrlParameter('ids');
+            let wallpaperIdsToDisplay = [];
+
+            if (idsParam) {
+                wallpaperIdsToDisplay = idsParam.split(',');
+            }
+
+            fetchAndRenderWallpapers(wallpaperIdsToDisplay);
         });
     </script>
 </body>
