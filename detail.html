@@ -203,7 +203,7 @@
         const SUPABASE_URL = 'https://bddphtmddbfatuibppsp.supabase.co';
         const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJkZHBodG1kZGJmYXR1aWJwcHNwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDg4ODc3MzMsImV4cCI6MjA2NDQ2MzczM30.u484-EmP6RqM8UQS5gv0RaYj4szI4iGIFffv6Z3wJaw';
 
-        // Define showModal and hideModal functions globally
+        // Define modal elements and functions globally or before they are called
         const messageModal = document.getElementById('messageModal');
         const modalTitle = document.getElementById('modalTitle');
         const modalMessage = document.getElementById('modalMessage');
@@ -215,10 +215,9 @@
                 modalTitle.textContent = title;
                 modalMessage.textContent = message;
                 modalContent.innerHTML = content;
-                messageModal.classList.add('active');
+                messageModal.classList.add('active'); // Use 'active' class for display:flex
             } else {
                 console.error("Modal elements not found. Cannot show modal.");
-                alert(`${title}: ${message}`);
             }
         }
 
@@ -227,7 +226,7 @@
                 modalTitle.textContent = '';
                 modalMessage.textContent = '';
                 modalContent.innerHTML = '';
-                messageModal.classList.remove('active');
+                messageModal.classList.remove('active'); // Remove 'active' class to hide
             }
         }
 
@@ -243,6 +242,7 @@
             });
         }
 
+        // Main script logic wrapped in an IIFE or conditional block
         if (!window.supabase) {
             console.error("Supabase library failed to load.");
             showModal('Error', 'Failed to load Supabase library. Please try again later.');
@@ -253,7 +253,7 @@
             const wallpapersContainer = document.getElementById('wallpapersContainer');
             const ADSTERRA_DIRECT_LINK = 'https://truckwinding.com/qjrwgdh5?key=9960743e1ca2babd0c81e50b86a83eda';
 
-            // Function to escape HTML special characters
+            // Function to escape HTML special characters for attributes and content
             const escapeHtml = (str) => {
                 if (typeof str !== 'string') return str;
                 const div = document.createElement('div');
@@ -261,7 +261,7 @@
                 return div.innerHTML;
             };
 
-            // Function to track wallpaper downloads
+            // Function to track wallpaper downloads in Supabase
             async function trackWallpaperDownload(wallpaperId) {
                 try {
                     const { data: currentData, error: fetchError } = await supabase
@@ -270,7 +270,7 @@
                         .eq('id', wallpaperId)
                         .single();
 
-                    if (fetchError && fetchError.code !== 'PGRST116') {
+                    if (fetchError && fetchError.code !== 'PGRST116') { // PGRST116 is "No rows found"
                         console.error(`Error fetching current downloads for ${wallpaperId}:`, fetchError.message);
                         return;
                     }
@@ -293,7 +293,7 @@
                 }
             }
 
-            // Function to handle download button clicks
+            // Function to handle download button clicks for individual wallpapers
             function handleDownloadClick(event) {
                 const button = event.currentTarget;
                 const wallpaperId = button.dataset.wallpaperId;
@@ -311,8 +311,8 @@
                     } else if (clickCount === 2) {
                         const a = document.createElement('a');
                         a.href = wallpaperSrc;
-                        const filename = wallpaperTitleForDownload ? 
-                            `${wallpaperTitleForDownload.replace(/[^a-z0-9\s]/gi, '_').replace(/\s/g, '_')}.jpg` : 
+                        const filename = wallpaperTitleForDownload ?
+                            `${wallpaperTitleForDownload.replace(/[^a-z0-9\s]/gi, '_').replace(/\s/g, '_')}.jpg` :
                             (wallpaperSrc.substring(wallpaperSrc.lastIndexOf('/') + 1) || 'wallpaper.jpg');
                         a.download = filename;
                         document.body.appendChild(a);
@@ -337,7 +337,7 @@
                 var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
                 var results = regex.exec(location.search);
                 return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
-            }
+            };
 
             // Function to fetch and render multiple wallpapers
             async function fetchAndRenderWallpapers(wallpaperIds) {
@@ -348,7 +348,7 @@
                     return;
                 }
                 if (!wallpaperIds || wallpaperIds.length === 0) {
-                    wallpapersContainer.innerHTML = '<p class="text-center text-gray-400 text-lg col-span-full">No wallpaper IDs provided. Please include them in the URL using the format: ?ids=id1,id2</p>';
+                    wallpapersContainer.innerHTML = '<p class="text-center text-gray-400 text-lg col-span-full">පෙන්වීමට කිසිදු Wallpaper ID එකක් සපයා නැත. ඔබගේ URL එකේ `?ids=YOUR_WALLPAPER_ID_1,YOUR_WALLPAPER_ID_2` හෝ ඒ හා සමාන දෙයක් ඇතුළත් කර ඇති බවට වග බලා ගන්න.</p>';
                     return;
                 }
 
@@ -358,18 +358,18 @@
                     );
                     const results = await Promise.all(fetchPromises);
 
-                    wallpapersContainer.innerHTML = '';
+                    wallpapersContainer.innerHTML = ''; // Clear existing content
 
                     const wallpapersData = results.map(result => {
-                        if (result.error && result.error.code !== 'PGRST116') {
+                        if (result.error && result.error.code !== 'PGRST116') { // PGRST116 is "No rows found"
                             console.error('Error fetching wallpaper:', result.error.message);
                             return null;
                         }
                         return result.data;
-                    }).filter(data => data !== null);
+                    }).filter(data => data !== null); // Filter out nulls (failed fetches)
 
                     if (wallpapersData.length === 0) {
-                        wallpapersContainer.innerHTML = '<p class="text-center text-gray-400 text-lg col-span-full">No wallpapers found for the provided IDs. Please check if they exist in your Supabase table.</p>';
+                        wallpapersContainer.innerHTML = '<p class="text-center text-gray-400 text-lg col-span-full">සපයන ලද ID සඳහා කිසිදු Wallpaper එකක් සොයා ගැනීමට නොහැකි විය. ඒවා ඔබගේ Supabase "wallpapers" table එකේ පවතින බවට වග බලා ගන්න.</p>';
                         return;
                     }
 
@@ -404,14 +404,14 @@
                         wallpapersContainer.insertAdjacentHTML('beforeend', wallpaperCardHtml);
                     });
 
-                    // Add event listeners to download buttons
+                    // Add event listeners to all dynamically created download buttons
                     document.querySelectorAll('.download-button').forEach(button => {
                         button.addEventListener('click', handleDownloadClick);
                     });
 
                 } catch (error) {
                     console.error('Error fetching wallpapers:', error);
-                    showModal('Error', 'Failed to load wallpapers. Please check your internet connection or Supabase configuration.');
+                    showModal('Error', 'Wallpapers load කිරීමට අසමත් විය. කරුණාකර ඔබගේ අන්තර්ජාල සම්බන්ධතාවය හෝ Supabase වින්‍යාසය පරීක්ෂා කරන්න.');
                 }
             }
 
@@ -429,7 +429,7 @@
                 }
 
                 if (wallpaperIdsToDisplay.length === 0) {
-                    showModal('Error', 'No valid wallpaper IDs provided in the URL. Please ensure you have ?ids=id1,id2 in the URL.');
+                    showModal('Error', 'No valid wallpaper IDs provided in the URL. Please ensure you have `?ids=YOUR_WALLPAPER_ID_1,YOUR_WALLPAPER_ID_2` in the URL.');
                     return;
                 }
 
